@@ -1,4 +1,6 @@
 <script setup>
+import {link} from "ionicons/icons";
+
 const props = defineProps({
   sinistre: Object
 })
@@ -13,33 +15,35 @@ if (props.sinistre.status.toLowerCase() === "traité") {
 </script>
 
 <template>
-  <div class="card">
-    <div class="header">
-      <h3 class="title">{{ sinistre.id }}</h3>
-      <div class="status">
-        <span></span> {{ sinistre.status }}
+  <RouterLink :to="'/sinistres/'+sinistre.id">
+    <div class="ask-card">
+      <div class="header">
+        <h3 class="title">{{ sinistre.id }}</h3>
+        <div class="status">
+          <span></span> {{ sinistre.status }}
+        </div>
+      </div>
+      <div class="body">
+        <div class="info">
+          <span>Véhicule : </span>
+          <span>{{ sinistre.car }}</span>
+        </div>
+        <div class="info">
+          {{
+            new Intl.DateTimeFormat('fr-CA', {
+              "year": "numeric",
+              month: "2-digit",
+              day: "2-digit"
+            }).format(new Date(sinistre.date))
+          }}
+        </div>
       </div>
     </div>
-    <div class="body">
-      <div class="info">
-        <span>Véhicule : </span>
-        <span>{{ sinistre.car }}</span>
-      </div>
-      <div class="info">
-        {{
-          new Intl.DateTimeFormat('fr-CA', {
-            "year": "numeric",
-            month: "2-digit",
-            day: "2-digit"
-          }).format(new Date(sinistre.date))
-        }}
-      </div>
-    </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.card {
+.ask-card {
   padding: .8rem;
   box-shadow: var(--global-shadow);
   border-radius: var(--global-border-radius);

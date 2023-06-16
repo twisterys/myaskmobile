@@ -18,7 +18,7 @@ const link = '/insurances/'+props.insurance.id
 
 <template>
   <RouterLink :to="link">
-    <div class="card">
+    <div class="ask-card">
       <div class="header">
         <h3 class="title">{{ insurance.id }}</h3>
         <div class="status">
@@ -47,7 +47,7 @@ const link = '/insurances/'+props.insurance.id
 </template>
 
 <style lang="scss" scoped>
-.card {
+.ask-card {
   padding: .8rem;
   box-shadow: var(--global-shadow);
   border-radius: var(--global-border-radius);
