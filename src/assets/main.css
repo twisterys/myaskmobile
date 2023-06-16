@@ -4,3 +4,6 @@ main{
     min-height: 100vh;
     padding: 1.5rem 1rem;
 }
+a {
+    text-decoration: none;
+}

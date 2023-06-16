@@ -13,14 +13,14 @@
         <p v-for="(error,i) in loginErrors" :key="i">{{ error }}</p>
       </div>
       <div class="form-body">
-        <Askinput placeholder="1289**" label="Identifiant / CIN" v-model="user.email" name="identifient"
+        <AskInput placeholder="1289**" label="Identifiant / CIN" v-model="user.email" name="identifient"
                input-id="identifient-input" rounded w-full left>
           <IconProfileCircle/>
-        </Askinput>
-        <Askinput placeholder="******" label="Mot de passe" v-model="user.password" name="password" input-id="password-input"
+        </AskInput>
+        <AskInput placeholder="******" label="Mot de passe" v-model="user.password" name="password" input-id="password-input"
                type="password" rounded w-full left>
           <IconKey/>
-        </Askinput>
+        </AskInput>
         <div class="bar">
           <router-link to="/restore">Mot de passe oublié ?</router-link>
         </div>
@@ -32,7 +32,7 @@
   </section>
   <section class="register">
     <div class="logo-register">
-      <img src="/src/assets/whiteLogo.png" alt="logo">
+      <img src="../assets/whiteLogo.png" alt="logo">
     </div>
     <div class="drag-hook"></div>
     <p  class="footer">Créer un compte ?</p>
@@ -49,35 +49,35 @@
       </div>
       <div class="form-body">
         <div class="row">
-          <Input placeholder="Votre prénom" label="Prénom" v-model="name" name="prénom"
+          <AskInput placeholder="Votre prénom" label="Prénom" v-model="name" name="prénom"
                  input-id="prénom-input" rounded w-full left>
             <IconProfileCircle/>
-          </Input>
-          <Input placeholder="Votre nom" label="Nom" v-model="lastName" name="Nom" input-id="nom-input"
+          </AskInput>
+          <AskInput placeholder="Votre nom" label="Nom" v-model="lastName" name="Nom" input-id="nom-input"
                  rounded w-full left>
             <IconProfileCircle/>
-          </Input>
+          </AskInput>
         </div>
-        <Input placeholder="Votre numéro CIN" label="Numéro CIN" v-model="identityCardNumber" name="cin"
+        <AskInput placeholder="Votre numéro CIN" label="Numéro CIN" v-model="identityCardNumber" name="cin"
                input-id="cin-input"
                rounded w-full left>
           <IconProfileCircle/>
-        </Input>
-        <Input placeholder="Votre date de naissance" label="Date de naissance" v-model="birthday" name="birthday"
+        </AskInput>
+        <AskInput placeholder="Votre date de naissance" label="Date de naissance" v-model="birthday" name="birthday"
                input-id="birthday-input"
                rounded w-full left>
           <IconCalendar/>
-        </Input>
-        <Input placeholder="Votre adresse" label="Adresse" v-model="address" name="adresse" input-id="adresse-input"
+        </AskInput>
+        <AskInput placeholder="Votre adresse" label="Adresse" v-model="address" name="adresse" input-id="adresse-input"
                rounded w-full>
-        </Input>
-        <Input placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-input"
+        </AskInput>
+        <AskInput placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-input"
                type="password" rounded w-full left>
           <IconKey/>
-        </Input>
-        <Button w-full>
+        </AskInput>
+        <AskButton w-full>
           Inscription
-        </Button>
+        </AskButton>
         <p @click="toggleSwiper" class="toLogin">
           <IconBack class="back"/>
           Retourner à la page de connexion
@@ -93,7 +93,7 @@ import {
 
 import {defineComponent, onMounted, ref} from "vue";
 import AskButton from "@/components/CustomButton.vue";
-import Askinput from "@/components/CustomInput.vue";
+import AskInput from "@/components/CustomInput.vue";
 import Eclipse from "@/components/icons/CustomEclipse.vue";
 import IconProfileCircle from "@/components/icons/IconProfileCircle.vue";
 import IconKey from "@/components/icons/IconKey.vue";
@@ -160,14 +160,15 @@ export default defineComponent({
     // eslint-disable-next-line vue/no-unused-components
     AskButton,
     Eclipse,
-    Askinput,
+    AskInput,
     IconBack,
     IconCalendar,
     IconProfileCircle,
     IconKey
   },
 });
-
+</script>
+<script setup>
 
 // -----------------------
 const name = ref('');
@@ -183,7 +184,6 @@ const registerErrors = ref([]);
 const registerHandler = (e) => {
 
 }
-
 
 // ----swipe effect------
 let touchStart;
@@ -345,6 +345,10 @@ onMounted(() => {
         display: flex;
         flex-wrap: nowrap;
         gap: .5rem;
+        margin: 0;
+        >*{
+         padding: 0 ;
+        }
         @media screen and (min-height: 840px) {
           flex-direction: column;
           gap: 1rem;
