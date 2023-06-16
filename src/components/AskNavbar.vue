@@ -40,6 +40,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: .5rem 1rem;
+  z-index: 99;
 }
 
 .nav-link {
@@ -48,8 +49,10 @@ nav {
   color: var(--white-color);
   padding: .6rem;
   border-radius: 50%;
+  &:active , &:focus , &:hover ,&:focus-visible {
+    color: var(--white-color);
+  }
 }
-
 .router-link-active {
   background-color: rgba(#fff, 0.2);
 }
