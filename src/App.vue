@@ -1,8 +1,9 @@
 <template>
   <ion-app>
-    <AskNavbar v-if="$route.path!=='/login'" />
+    <AskNavbar v-if="$route.path!=='/login' && $route.path!=='/addinsurance' " />
     <ion-router-outlet />
   </ion-app>
+
 </template>
 
 <script setup >

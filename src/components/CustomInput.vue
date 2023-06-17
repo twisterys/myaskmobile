@@ -7,12 +7,16 @@ defineProps({
   modelValue: {
     type: String,
   },
+  hideLabel: {
+    default:false,
+    type:Boolean
+  }
 })
 defineEmits(['update:modelValue']);
 </script>
 <template>
   <div class="input">
-    <label :for="'#'+inputId" class="input-label">{{ label }}</label>
+    <label v-if="!hideLabel" :for="'#'+inputId" class="input-label">{{ label }}</label>
     <input :id="inputId" class="input-text"  :name="name"  :value="modelValue"
            @input="$emit('update:modelValue', $event.target.value)" :placeholder="placeholder" v-bind="$attrs" >
     <div class="input-icon">

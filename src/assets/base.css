@@ -33,3 +33,15 @@
 a {
     color: var(--blue-color-400);
 }
+
+/* Sky blue */
+.vc-sky-blue {
+    --vc-accent-50: #f0f9ff;
+    --vc-accent-100: #e0f2fe;
+    --vc-accent-200: #bae6fd;
+    --vc-accent-300: #7dd3fc;
+    --vc-accent-400: #78aba6;
+    --vc-accent-500: var(--blue-color-100);
+    --vc-accent-600: var(--blue-color-400);
+    --vc-accent-900: var(--blue-color-300);
+}

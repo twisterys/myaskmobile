@@ -3,10 +3,28 @@
 main{
     min-height: 100vh;
     padding: 1.5rem 1rem;
+    overflow-y: scroll ;
 }
 a {
     text-decoration: none;
 }
 h1 {
     margin: 0;
+}
+.aks-select {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--full-border-radius);
+    padding: 0 1rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    width: 100%;
+}
+option[disabled] {
+    color: var(--gray-color-300);
+}
+ion-router-outlet {
+    overflow-y: scroll;
 }

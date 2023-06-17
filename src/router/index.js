@@ -4,6 +4,7 @@ import Login from "../views/Login";
 import store from "@/store";
 import InsurancesPage from "@/views/InsurancesPage.vue";
 import InsurancePage from "@/views/InsurancePage.vue";
+import AddInsurancePage from "@/views/AddInsurancePage.vue";
 
 const routes = [
   {
@@ -48,7 +49,7 @@ const routes = [
     },
   },
   {
-    path: "/insurance/:id",
+    path: "/insurances/:id",
     name:  "Insurance",
     component: InsurancePage,
     beforeEnter: (to, from, next) => {
@@ -57,6 +58,11 @@ const routes = [
       // }
       next();
     },
+  },
+  {
+    path: "/addinsurance",
+    name:'Nouveau assurance',
+    component: AddInsurancePage
   }
 ]
 

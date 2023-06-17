@@ -17,7 +17,7 @@ defineProps({
       </div>
       <div class="info">
         <span>Mise en circulation: </span>
-        <span>{{car.circulation_date}}</span>
+        <span>{{new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation_date))}}</span>
       </div>
     </div>
     <div class="footer">

@@ -2,12 +2,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import axios from 'axios';
-
 import { IonicVue } from '@ionic/vue';
 
 /* Fontawesome */
 import store from './store/index'
-import './assets/main.css'
+import './assets/main.css';
+import 'v-calendar/style.css';
+import '@ionic/vue/css/core.css';
+
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 

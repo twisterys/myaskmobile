@@ -1,6 +1,5 @@
 <script setup>
-import tab from "bootstrap/js/src/tab";
-import {checkbox} from "ionicons/icons";
+import {onMounted, ref, watch} from "vue";
 
 const props =defineProps({
   label: String,
@@ -9,19 +8,19 @@ const props =defineProps({
   disable:Boolean,
   checked:Boolean,
 })
-
+const spanChecked= ref(props.checked);
 const clickHandler = e => {
   if (!props.disable){
     e.target.firstChild.checked = !e.target.firstChild.checked;
-    e.target.children[1].classList.toggle('active');
+    spanChecked.value = e.target.firstChild.checked;
   }
 }
 </script>
 
 <template>
   <div @click="clickHandler" class="ask-checkbox">
-    <input @change=" disable ? $emit('input', $event.target.checked) :''"  :checked="checked"  type="checkbox" :value="modelValue"  :name="name">
-    <span :class="checked? 'active':null" ></span>
+    <input  @change=" !disable ? $emit('input', $event.target.checked) :''"  :checked="checked"  type="checkbox" :value="modelValue"  :name="name"  >
+    <span :class="spanChecked? 'active':null" ></span>
     <p>{{ label }}</p>
   </div>
 </template>
