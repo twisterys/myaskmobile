@@ -13,7 +13,7 @@ if (props.insurance.status.toLowerCase() === "valide") {
   color = '#EB5757';
   background = '#EB575733';
 }
-const link = '/insurances/'+props.insurance.id
+const link = '/insurance/'+props.insurance.id
 </script>
 
 <template>

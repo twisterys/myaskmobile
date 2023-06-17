@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue';
 import Login from "../views/Login";
 import store from "@/store";
 import InsurancesPage from "@/views/InsurancesPage.vue";
+import InsurancePage from "@/views/InsurancePage.vue";
 
 const routes = [
   {
@@ -39,6 +40,17 @@ const routes = [
     path: "/insurances",
     name:  "Insurances",
     component: InsurancesPage,
+    beforeEnter: (to, from, next) => {
+      // if (!store.getters["auth/authenticated"]) {
+      //   return next({ name: "Login" });
+      // }
+      next();
+    },
+  },
+  {
+    path: "/insurance/:id",
+    name:  "Insurance",
+    component: InsurancePage,
     beforeEnter: (to, from, next) => {
       // if (!store.getters["auth/authenticated"]) {
       //   return next({ name: "Login" });
