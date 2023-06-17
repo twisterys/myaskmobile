@@ -1,71 +1,35 @@
-<template>
-  <ion-card class="task-card">
-    <div class="card-body">
-      <div class="task-body">
-        <div class="task" v-for="task in tasks" :key="task.id">
-          <span class="title">{{ task.title }}</span>
-        </div>
-      </div>
-    </div>
-  </ion-card>
-</template>
-
-
 <script setup>
-import { ref, onMounted } from 'vue';
-import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/vue';
-import store from '@/store';
-import axios from 'axios';
-
-const currentDate = ref('');
-const tasks = ref([]);
-const user = ref(null);
-
-const fetchTasks = async () => {
-  try {
-    const fetchedUser = store.getters['auth/user'];
-    user.value = JSON.parse(fetchedUser);
-
-    const res = await axios.get('http://127.0.0.1:8000/api/get-tasks');
-    tasks.value = res.data;
-    console.log(tasks.value);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-onMounted(fetchTasks);
+import PageHeader from "@/components/PageHeader.vue";
+import IconNotification from "@/components/icons/IconNotification.vue";
+import PageDivider from "@/components/PageDivider.vue";
+import InsuranceCard from "@/components/InsuranceCard.vue";
+import SinistreCard from "@/components/SinistreCard.vue";
+const insurances = [{
+  id: "AK2023R00019",
+  couvertures: ["RC", "Tierce"],
+  date: "2024-03-12",
+  status: "Valide"
+}]
+const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "En cours"}, {
+  id: "S20230498",
+  car: "Dacia",
+  date: "2023-06-12",
+  status: "Traité"
+}]
 </script>
 
-
-
+<template>
+  <main>
+    <PageHeader text="Accueil" :icon="true">
+      <IconNotification style="width: 40px"/>
+    </PageHeader>
+    <PageDivider text="Contrat d’assurance"/>
+    <InsuranceCard v-for="insurance in insurances" :key="insurance.id" :insurance="insurance"/>
+    <PageDivider text="Mes derniers sinistres"/>
+    <SinistreCard v-for="sinistre in sinistres" :key="sinistre.id" :sinistre="sinistre"/>
+  </main>
+</template>
 
 <style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
 </style>
