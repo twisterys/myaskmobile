@@ -1,6 +1,5 @@
 <template>
   <ion-page>
-
   <Eclipse class="eclipse"/>
   <div class="logo">
     <img src="../assets/logo.png" alt="logo">

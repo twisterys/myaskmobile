@@ -8,6 +8,7 @@ import AddInsurancePage from "@/views/AddInsurancePage.vue";
 import SinistresPage from "@/views/SinistresPage.vue";
 import SinistrePage from "@/views/SinistrePage.vue";
 import AddSinistrePage from "@/views/AddSinistrePage.vue";
+import AssistancePage from "@/views/AssistancePage.vue";
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
     path: "/addSinistre/",
     name:'Nouvelle sinistre',
     component: AddSinistrePage
+  },
+  {
+    path: "/assistance",
+    name:'Assistance routier',
+    component: AssistancePage
   }
 ]
 

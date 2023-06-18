@@ -1,8 +1,10 @@
 <script setup>
-import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import {ref} from "vue";
+import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import CustomTextArea from "@/components/CustomTextArea.vue";
 import ImageInput from "@/components/ImageInput.vue";
+import {IonPage} from "@ionic/vue";
+
 
 const cars = [{
   id: 1,
@@ -14,28 +16,34 @@ const cars = [{
 }];
 const car = ref(cars[0].id)
 const tiers = ref('');
-const description = ref('')
+const description = ref('');
 </script>
 
 <template>
-  <main>
-    <ToBackPageHeader text="Nouveau sinistre"/>
-    <p class="phrase">Remplissez vos informations dans les champs suivant</p>
-    <div class="car">
-      <p>Véhicule :</p>
-      <select :value="car" class="aks-select" @change="$event=> car = $event.target.value ">
-        <option v-for="car in cars" :key="car.id" :value="car.id"> {{ car.matricule.city }} {{ car.matricule.alphabet }}
-          {{ car.matricule.number }}
-        </option>
-      </select>
-    </div>
-    <CustomTextArea label="Information Tiers :" v-model="tiers" placeholder="Information tiers..." w-full/>
-    <CustomTextArea label="Description :" v-model="description" placeholder="Votre description..." w-full/>
-    <div class="photos">
-      <p>Photos d’accident:</p>
-      <image-input input-id="image1" />
-    </div>
-  </main>
+  <ion-page>
+    <ion-content :fullscreen="true">
+      <main>
+        <ToBackPageHeader text="Nouveau sinistre"/>
+        <p class="phrase">Remplissez vos informations dans les champs suivant</p>
+        <div class="car">
+          <p>Véhicule :</p>
+          <select :value="car" class="aks-select" @change="$event=> car = $event.target.value ">
+            <option v-for="car in cars" :key="car.id" :value="car.id"> {{ car.matricule.city }} {{
+                car.matricule.alphabet
+              }}
+              {{ car.matricule.number }}
+            </option>
+          </select>
+        </div>
+        <CustomTextArea label="Information Tiers :" v-model="tiers" placeholder="Information tiers..." w-full/>
+        <CustomTextArea label="Description :" v-model="description" placeholder="Votre description..." w-full/>
+        <div class="photos">
+          <p>Photos d’accident:</p>
+          <image-input input-id="image1"/>
+        </div>
+      </main>
+    </ion-content>
+  </ion-page>
 </template>
 
 <style lang="scss" scoped>
