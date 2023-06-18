@@ -8,28 +8,28 @@ defineProps({
 <RouterLink :to="'car/' + car.id">
   <div class="ask-card">
     <div class="header">
-      <h3 class="title">{{car.marque}}</h3>
+      <h3 class="title">{{car.mark}}</h3>
     </div>
     <div class="body">
       <div class="info">
         <span>Modele: </span>
-        <span>{{car.modele}}</span>
+        <span>{{car.model}}</span>
       </div>
       <div class="info">
         <span>Mise en circulation: </span>
-        <span>{{new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation_date))}}</span>
+        <span>{{new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation))}}</span>
       </div>
     </div>
     <div class="footer">
-      <span>{{ car.matricule.number }}</span>
-      <span>{{ car.matricule.alphabet }}</span>
-      <span>{{ car.matricule.city }}</span>
+      <span>{{ car.mat1 }}</span>
+      <span>{{ car.mat2 }}</span>
+      <span>{{ car.mat3 }}</span>
     </div>
   </div>
 </RouterLink>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .ask-card {
   padding: .8rem;
   box-shadow: var(--global-shadow);

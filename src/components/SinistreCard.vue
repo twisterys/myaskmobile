@@ -5,10 +5,10 @@ const props = defineProps({
   sinistre: Object
 })
 let color, background;
-if (props.sinistre.status.toLowerCase() === "traité") {
+if (props.sinistre.status.toLowerCase() === "reviewed") {
   color = '#139A5F';
   background = '#A1D7BF';
-} else if (props.sinistre.status.toLowerCase() === "en cours") {
+} else if (props.sinistre.status.toLowerCase() === "inreview") {
   color = '#ECC94B';
   background = '#F6E4A58C';
 }
@@ -18,15 +18,17 @@ if (props.sinistre.status.toLowerCase() === "traité") {
   <RouterLink :to="'/sinistre/'+sinistre.id">
     <div class="ask-card">
       <div class="header">
-        <h3 class="title">{{ sinistre.id }}</h3>
+        <h3 class="title">{{ sinistre.id_number }}</h3>
         <div class="status">
-          <span></span> {{ sinistre.status }}
+          <span></span>
+          <span v-if="sinistre.status==='reviewed'" >Traité</span>
+          <span v-if="sinistre.status==='inreview'" >En cours</span>
         </div>
       </div>
       <div class="body">
         <div class="info">
           <span>Véhicule : </span>
-          <span>{{ sinistre.car }}</span>
+          <span>{{ sinistre.car.mark }}</span>
         </div>
         <div class="info">
           {{
@@ -34,7 +36,7 @@ if (props.sinistre.status.toLowerCase() === "traité") {
               "year": "numeric",
               month: "2-digit",
               day: "2-digit"
-            }).format(new Date(sinistre.date))
+            }).format(new Date(sinistre.created_at))
           }}
         </div>
       </div>
@@ -63,14 +65,14 @@ if (props.sinistre.status.toLowerCase() === "traité") {
     text-transform: uppercase;
   }
 
-  .status {
+  .status{
     border-radius: var(--full-border-radius);
     color: v-bind(color);
     background-color: v-bind(background);
     padding: .3rem .5rem;
     font-size: .8rem;
 
-    span {
+    span:first-child  {
       display: inline-block;
       width: 9px;
       height: 9px;

@@ -3,10 +3,10 @@ const props = defineProps({
   insurance: Object
 })
 let color, background;
-if (props.insurance.status.toLowerCase() === "valide") {
+if (props.insurance.status.toLowerCase() === "validated") {
   color = '#139A5F';
   background = '#A1D7BF';
-} else if (props.insurance.status.toLowerCase() === "en cours") {
+} else if (props.insurance.status.toLowerCase() === "inreview") {
   color = '#ECC94B';
   background = '#F6E4A58C';
 } else {
@@ -20,9 +20,12 @@ const link = '/insurance/'+props.insurance.id
   <RouterLink :to="link">
     <div class="ask-card">
       <div class="header">
-        <h3 class="title">{{ insurance.id }}</h3>
+        <h3 class="title">{{ insurance.police }}</h3>
         <div class="status">
-          <span></span> {{ insurance.status }}
+          <span></span>
+          <span v-if="insurance.status === 'validated' " >Valide</span>
+          <span v-if="insurance.status === 'inreview' ">En cours</span>
+          <span v-if="insurance.status==='expired'">expire</span>
         </div>
       </div>
       <div class="body">
@@ -31,14 +34,20 @@ const link = '/insurance/'+props.insurance.id
           <span v-for="(couverture,i) in insurance.couvertures" :key="'couverture'+i">{{ couverture }},</span>
         </div>
         <div class="info">
-          <span v-if="insurance.status !== 'en cours' " >Date de renouvellement : </span>
-          <span v-else>Date de demande : </span>
-          <span>{{
+          <span v-if="insurance.status === 'validated' " >Date de renouvellement : </span>
+          <span v-if="insurance.status === 'inreview' ">Date de demande : </span>
+          <span v-if="insurance.status==='expired'">Date d'expiration : </span>
+          <span v-if="insurance.start_from" >{{
+            insurance.status !== 'expired'?
               new Intl.DateTimeFormat('fr-CA', {
                 "year": "numeric",
                 month: "2-digit",
                 day: "2-digit"
-              }).format(new Date(insurance.date))
+              }).format(new Date(insurance.start_from).setMonth(new Date(insurance.start_from).getMonth()+insurance.duration)):new Intl.DateTimeFormat('fr-CA', {
+                  "year": "numeric",
+                  month: "2-digit",
+                  day: "2-digit"
+                }).format(new Date(insurance.start_from))
             }}</span>
         </div>
       </div>
@@ -74,7 +83,7 @@ const link = '/insurance/'+props.insurance.id
     padding: .3rem .5rem;
     font-size: .8rem;
 
-    span {
+    span:first-child {
       display: inline-block;
       width: 9px;
       height: 9px;

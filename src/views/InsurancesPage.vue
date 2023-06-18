@@ -3,45 +3,34 @@ import PageHeader from "@/components/PageHeader.vue";
 import IconAdd from "@/components/icons/IconAdd.vue";
 import router from "@/router";
 import InsuranceCard from "@/components/InsuranceCard.vue";
-import {computed, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {IonPage,IonContent} from "@ionic/vue";
+import axios from "axios";
 
 
-const insurances = [
-  {
-    id: "AK2023R00019",
-    couvertures: ["RC", "Tierce"],
-    date: "2024-03-12",
-    status: "Valide"
-  },
-  {
-    id: "AK2033R00019",
-    couvertures: ["Tous risques"],
-    date: "2023-03-12",
-    status: "Expiré"
-  }
-  ,
-  {
-    id: "D2023T004532",
-    couvertures: ["Tous risques"],
-    date: "2023-03-12",
-    status: "En cours"
-  }
-];
-const filterBy = ref('tous')
+const insurances = ref([]);
+const filterBy = ref('all')
 function  filter(e) {
   document.querySelectorAll('.filter').forEach(o=>o.classList.remove('active'))
   e.target.classList.add('active');
-  filterBy.value = e.target.innerHTML.trim();
+  filterBy.value = e.target.dataset.filter.trim();
 
 }
 const filteredData = computed(
     ()=>{
-      if (filterBy.value.toLowerCase()==='tous'){
-        return insurances;
+      if (filterBy.value.toLowerCase()==='all'){
+        return insurances.value;
       }else {
-        return insurances.filter(a=>a.status.trim().toLowerCase() === filterBy.value.toLowerCase())
+        return insurances.value.filter(a=>a.status.trim().toLowerCase() === filterBy.value.toLowerCase())
       }
+    }
+)
+onBeforeMount(() => {
+      axios.get('insurances').then(response=> {
+        if (response.data.insurances.length>0){
+          insurances.value=response.data.insurances;
+        }
+      })
     }
 )
 </script>
@@ -54,16 +43,16 @@ const filteredData = computed(
           <icon-add class="icon" @click="router.push('/addinsurance')"/>
         </PageHeader>
         <div class="filter-bar">
-          <div @click="filter" class="filter active">
+          <div @click="filter" data-filter="all" class="filter active">
             Tous
           </div>
-          <div @click="filter" class="filter">
+          <div @click="filter" data-filter="validated" class="filter">
             Valide
           </div>
-          <div @click="filter" class="filter">
+          <div @click="filter" data-filter="expired" class="filter">
             Expiré
           </div>
-          <div @click="filter" class="filter">
+          <div @click="filter" data-filter="inreview" class="filter">
             En cours
           </div>
         </div>

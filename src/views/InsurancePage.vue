@@ -4,55 +4,53 @@ import PageDivider from "@/components/PageDivider.vue";
 import CarCard from "@/components/CarCard.vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
 import {IonContent, IonPage} from "@ionic/vue";
+import axios from "axios";
+import {computed, onBeforeMount, ref} from "vue";
 
+const props = defineProps({
+  id: Number
+})
 
-const insurance = {
-  id: "AK2023R00019",
-  couvertures: ["Responsabilité civile", "RC", "Tierce"],
-  date: "2024-03-12",
-  renewDate: "2023-03-12",
-  status: "Valide",
-  cars: [
-    {
-      id:"1",
-      marque:"Renault",
-      modele:"Kango",
-      horsePower:"59",
-      circulation_date:"02/03/2010",
-      matricule:{
-        number:"198732",
-        alphabet:"د",
-        city:"06"
-      }
+const insurance = ref([]);
+const date = ref('');
+onBeforeMount(() => {
+      axios.get(`insurance_show/${props.id}`).then(response => {
+        insurance.value= response.data.insurance;
+        date.value =new Intl.DateTimeFormat('fr-CA', {
+          "year": "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(new Date(response.data.insurance.start_from).setMonth(new Date(response.data.insurance.start_from).getMonth()+response.data.insurance.duration))
+      });
+
     }
-  ]
-}
+)
 </script>
 
 <template>
   <ion-page>
     <ion-content :fullscreen="true" >
       <main>
-        <ToBackPageHeader :text="insurance.id"/>
+        <ToBackPageHeader :text="insurance.police"/>
         <PageDivider text="Informations des véhicules"/>
         <CarCard v-for="car in insurance.cars" :key="car.id" :car="car"/>
         <PageDivider text="Information d’assurance"/>
         <div class="info">
           <span>Numéro de police :</span>
-          <span></span>
+          <span>{{insurance.police}}</span>
         </div>
         <div class="info">
           <span>Date d'effet : </span>
-          <span>{{insurance.date}}</span>
+          <span>{{insurance.start_from}}</span>
         </div>
-        <div v-if="insurance.status.trim().toLowerCase()!=='en cours'" class="info">
+        <div v-if="insurance.status !=='validated'" class="info">
           <span>Date de renouvellement : </span>
-          <span>{{ insurance.date }}</span>
+          <span>{{date}}</span>
         </div>
-        <div class="couverture">
+        <div  class="couverture">
           <span>Type de couverture : </span>
           <div class="types">
-            <CustomCheckBox v-for="(couverture,i) in insurance.couvertures" :key="couverture + i" :label="couverture"
+            <CustomCheckBox v-for="(couverture,i) in insurance.types" :key="couverture + i" :label="couverture"
                             :model-value="couverture.trim().toLowerCase()" name="couverture" :disable="true"
                             :checked="true"/>
           </div>
@@ -62,7 +60,7 @@ const insurance = {
   </ion-page>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .info , .couverture {
   margin-top: 1rem;
 }
@@ -72,5 +70,12 @@ const insurance = {
   gap: .5rem;
   flex-wrap: wrap;
   margin-top: 1rem;
+}
+.info {
+  color: var(--black-color);
+
+  span:not(:first-child) {
+    color: var(--gray-color-300);
+  }
 }
 </style>

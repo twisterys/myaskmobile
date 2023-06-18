@@ -72,7 +72,7 @@
         <AskInput placeholder="Votre adresse" label="Adresse" v-model="address" name="adresse" input-id="adresse-input"
                rounded w-full>
         </AskInput>
-        <AskInput placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-input"
+        <AskInput placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-register-input"
                type="password" rounded w-full left>
           <IconKey/>
         </AskInput>
@@ -194,22 +194,22 @@ let touchStart;
 const toggleSwiper = () => {
   document.querySelector('.register').classList.toggle('opened');
 }
-// onMounted(() => {
-//   document.querySelectorAll('.drag-hook').forEach(o => o.addEventListener('touchstart', e => {
-//     touchStart = e.changedTouches[0].clientY;
-//     console.log(touchStart)
-//   }))
-//   document.querySelectorAll(".drag-hook").forEach(o => o.addEventListener('touchend', e => {
-//     const touchEnd = e.changedTouches[0].clientY;
-//     if (touchEnd > touchStart + 15) {
-//       document.querySelector('.register').classList.remove('opened');
-//
-//       console.log("down")
-//     } else if (touchEnd < touchStart - 15) {
-//       document.querySelector('.register').classList.add('opened');
-//     }
-//   }))
-// })
+onMounted(() => {
+  document.querySelectorAll('.drag-hook').forEach(o => o.addEventListener('touchstart', e => {
+    touchStart = e.changedTouches[0].clientY;
+    console.log(touchStart)
+  }))
+  document.querySelectorAll(".drag-hook").forEach(o => o.addEventListener('touchend', e => {
+    const touchEnd = e.changedTouches[0].clientY;
+    if (touchEnd > touchStart + 15) {
+      document.querySelector('.register').classList.remove('opened');
+
+      console.log("down")
+    } else if (touchEnd < touchStart - 15) {
+      document.querySelector('.register').classList.add('opened');
+    }
+  }))
+})
 </script>
 <style lang="scss" scoped>
 .eclipse {

@@ -7,7 +7,7 @@ defineProps({
 
 <template>
   <div>
-    <IconBack class="back-icon"  @click="$router.go(-1)" />
+    <IconBack class="back-icon"  @click="$router.back()" />
     <h1>{{text}}</h1>
   </div>
 </template>

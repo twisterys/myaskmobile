@@ -1,23 +1,35 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
-import IconNotification from "@/components/icons/IconNotification.vue";
 import PageDivider from "@/components/PageDivider.vue";
 import InsuranceCard from "@/components/InsuranceCard.vue";
 import SinistreCard from "@/components/SinistreCard.vue";
-import {IonPage,IonContent,IonHeader,IonFooter} from "@ionic/vue";
+import {IonContent, IonPage} from "@ionic/vue";
+import {onBeforeMount, ref} from "vue";
+import axios from "axios";
+import IconLogout from "@/components/icons/IconLogout.vue";
+import {useRouter} from "vue-router";
 
-const insurances = [{
-  id: "AK2023R00019",
-  couvertures: ["RC", "Tierce"],
-  date: "2024-03-12",
-  status: "Valide"
-}]
-const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "En cours"}, {
-  id: "S20230498",
-  car: "Dacia",
-  date: "2023-06-12",
-  status: "Traité"
-}]
+const router = useRouter();
+const insurances = ref([]);
+const sinistres = ref([]);
+onBeforeMount(() => {
+      axios.get('insurances').then(response => {
+        if (response.data.insurances.length > 0) {
+          insurances.value.push(response.data.insurances.filter(o => o.status == 'validated')[0])
+        }
+      });
+      axios.get('sinistres').then(response => {
+        console.log(response.data.sinistres)
+        if (response.data.sinitres.length > 0) {
+          sinistres.value = (response.data.sinitres)
+        }
+      })
+    }
+)
+const logout = () => {
+  localStorage.clear();
+  router.go();
+}
 </script>
 
 <template>
@@ -25,17 +37,17 @@ const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "
     <ion-content :fullscreen="true" >
     <main>
     <PageHeader text="Accueil" :icon="true">
-          <IconNotification style="width: 40px"/>
+      <IconLogout @click="logout" style="width: 35px;color: var(--danger-color)"/>
         </PageHeader>
         <PageDivider text="Contrat d’assurance"/>
         <InsuranceCard v-for="insurance in insurances" :key="insurance.id" :insurance="insurance"/>
         <PageDivider text="Mes derniers sinistres"/>
         <SinistreCard v-for="sinistre in sinistres" :key="sinistre.id" :sinistre="sinistre"/>
     </main>
+
     </ion-content>
   </ion-page>
 </template>
 
 <style scoped>
-
 </style>

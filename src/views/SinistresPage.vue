@@ -3,30 +3,35 @@
 import PageHeader from "@/components/PageHeader.vue";
 import IconAdd from "@/components/icons/IconAdd.vue";
 import router from "@/router";
-import {computed, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import SinistreCard from "@/components/SinistreCard.vue";
 import {IonPage,IonContent} from "@ionic/vue";
-const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "En cours"}, {
-  id: "S20230498",
-  car: "Dacia",
-  date: "2023-06-12",
-  status: "Traité"
-}];
-const filterBy = ref('tous')
+import axios from "axios";
+const sinistres = ref([]);
+const filterBy = ref('all')
 
 function filter(e) {
   document.querySelectorAll('.filter').forEach(o => o.classList.remove('active'))
   e.target.classList.add('active');
-  filterBy.value = e.target.innerHTML.trim();
+  filterBy.value = e.target.dataset.filter.trim();
 }
 
 const filteredData = computed(
     () => {
-      if (filterBy.value.toLowerCase() === 'tous') {
-        return sinistres;
+      if (filterBy.value.toLowerCase() === 'all') {
+        return sinistres.value;
       } else {
-        return sinistres.filter(a => a.status.trim().toLowerCase() === filterBy.value.toLowerCase())
+        return sinistres.value.filter(a => a.status.trim().toLowerCase() === filterBy.value.toLowerCase())
       }
+    }
+)
+onBeforeMount(() => {
+      axios.get('sinistres').then(response=> {
+        console.log(response.data.sinistres)
+        if (response.data.sinitres.length>0){
+          sinistres.value = response.data.sinitres
+        }
+      })
     }
 )
 </script>
@@ -39,13 +44,13 @@ const filteredData = computed(
         <icon-add class="icon" @click="router.push('/addsinistre')"/>
       </PageHeader>
       <div class="filter-bar">
-        <div @click="filter" class="filter active">
+        <div @click="filter" data-filter="all" class="filter active">
           Tous
         </div>
-        <div @click="filter" class="filter">
+        <div @click="filter" data-filter="reviewed" class="filter">
           Traité
         </div>
-        <div @click="filter" class="filter">
+        <div @click="filter" data-filter="inreview" class="filter">
           En cours
         </div>
       </div>
