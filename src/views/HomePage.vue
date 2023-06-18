@@ -4,9 +4,7 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 import PageDivider from "@/components/PageDivider.vue";
 import InsuranceCard from "@/components/InsuranceCard.vue";
 import SinistreCard from "@/components/SinistreCard.vue";
-import {IonPage} from "@ionic/vue";
-
-
+import {IonPage,IonContent,IonHeader,IonFooter} from "@ionic/vue";
 
 const insurances = [{
   id: "AK2023R00019",
@@ -24,6 +22,8 @@ const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "
 
 <template>
   <ion-page>
+    <ion-content :fullscreen="true" >
+    <main>
     <PageHeader text="Accueil" :icon="true">
           <IconNotification style="width: 40px"/>
         </PageHeader>
@@ -31,6 +31,8 @@ const sinistres = [{id: "S20230447", car: "Dacia", date: "2023-01-02", status: "
         <InsuranceCard v-for="insurance in insurances" :key="insurance.id" :insurance="insurance"/>
         <PageDivider text="Mes derniers sinistres"/>
         <SinistreCard v-for="sinistre in sinistres" :key="sinistre.id" :sinistre="sinistre"/>
+    </main>
+    </ion-content>
   </ion-page>
 </template>
 

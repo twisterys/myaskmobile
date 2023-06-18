@@ -33,6 +33,8 @@ const filteredData = computed(
 
 <template>
   <ion-page>
+    <ion-content :fullscreen="true">
+      <main>
       <PageHeader text="Mes sinistres" :icon="true">
         <icon-add class="icon" @click="router.push('/addsinistre')"/>
       </PageHeader>
@@ -48,6 +50,8 @@ const filteredData = computed(
         </div>
       </div>
       <SinistreCard v-for="sinistre in filteredData" :key="sinistre.id" :sinistre="sinistre"/>
+      </main>
+    </ion-content>
   </ion-page>
 </template>
 

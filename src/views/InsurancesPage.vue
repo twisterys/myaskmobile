@@ -48,7 +48,8 @@ const filteredData = computed(
 
 <template>
   <ion-page>
-
+    <ion-content :fullscreen="true">
+      <main>
     <PageHeader text="Mes assurances" :icon="true">
           <icon-add class="icon" @click="router.push('/addinsurance')"/>
         </PageHeader>
@@ -67,6 +68,8 @@ const filteredData = computed(
           </div>
         </div>
         <InsuranceCard v-for="(insurance) in filteredData" :key="insurance.id" :insurance="insurance"/>
+      </main>
+    </ion-content>
   </ion-page>
 </template>
 
