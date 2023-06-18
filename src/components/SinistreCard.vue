@@ -15,7 +15,7 @@ if (props.sinistre.status.toLowerCase() === "traité") {
 </script>
 
 <template>
-  <RouterLink :to="'/sinistres/'+sinistre.id">
+  <RouterLink :to="'/sinistre/'+sinistre.id">
     <div class="ask-card">
       <div class="header">
         <h3 class="title">{{ sinistre.id }}</h3>

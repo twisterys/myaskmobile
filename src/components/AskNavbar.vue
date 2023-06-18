@@ -8,13 +8,13 @@ import IconSettings from "@/components/icons/IconSettings.vue";
 
 <template>
   <nav>
-    <RouterLink class="nav-link" to="/home">
+    <RouterLink to="/home" class="nav-link">
       <IconHome/>
     </RouterLink>
     <RouterLink class="nav-link" to="/insurances">
       <IconInsurance/>
     </RouterLink>
-    <RouterLink class="nav-link" to="/sinisres">
+    <RouterLink class="nav-link" to="/sinistres">
       <IconWarning/>
     </RouterLink>
     <RouterLink class="nav-link" to="/assistance">

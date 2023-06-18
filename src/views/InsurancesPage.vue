@@ -4,7 +4,10 @@ import IconAdd from "@/components/icons/IconAdd.vue";
 import router from "@/router";
 import InsuranceCard from "@/components/InsuranceCard.vue";
 import {computed, ref} from "vue";
-const insurances =[
+import {IonPage,IonContent} from "@ionic/vue";
+
+
+const insurances = [
   {
     id: "AK2023R00019",
     couvertures: ["RC", "Tierce"],
@@ -44,26 +47,27 @@ const filteredData = computed(
 </script>
 
 <template>
-  <main>
+  <ion-page>
+
     <PageHeader text="Mes assurances" :icon="true">
-      <icon-add class="icon" @click="router.push('/addinsurance')" />
-    </PageHeader>
-    <div class="filter-bar">
-      <div @click="filter" class="filter active">
-        Tous
-      </div>
-      <div @click="filter" class="filter">
-        Valide
-      </div>
-      <div @click="filter" class="filter">
-        Expiré
-      </div>
-      <div @click="filter" class="filter">
-        En cours
-      </div>
-    </div>
-    <InsuranceCard v-for="(insurance) in filteredData" :key="insurance.id" :insurance="insurance" />
-  </main>
+          <icon-add class="icon" @click="router.push('/addinsurance')"/>
+        </PageHeader>
+        <div class="filter-bar">
+          <div @click="filter" class="filter active">
+            Tous
+          </div>
+          <div @click="filter" class="filter">
+            Valide
+          </div>
+          <div @click="filter" class="filter">
+            Expiré
+          </div>
+          <div @click="filter" class="filter">
+            En cours
+          </div>
+        </div>
+        <InsuranceCard v-for="(insurance) in filteredData" :key="insurance.id" :insurance="insurance"/>
+  </ion-page>
 </template>
 
 <style lang="scss" scoped>

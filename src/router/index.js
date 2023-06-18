@@ -5,28 +5,19 @@ import store from "@/store";
 import InsurancesPage from "@/views/InsurancesPage.vue";
 import InsurancePage from "@/views/InsurancePage.vue";
 import AddInsurancePage from "@/views/AddInsurancePage.vue";
+import SinistresPage from "@/views/SinistresPage.vue";
+import SinistrePage from "@/views/SinistrePage.vue";
+import AddSinistrePage from "@/views/AddSinistrePage.vue";
 
 const routes = [
   {
     path: "/",
     redirect: "/home",
-    beforeEnter: (to, from, next) => {
-      // if (!store.getters["auth/authenticated"]) {
-      //   return next({ name: "Login" });
-      // }
-      next();
-    },
   },
   {
     path: "/home",
     name: "Home",
     component: HomePage,
-    beforeEnter: (to, from, next) => {
-      // if (!store.getters["auth/authenticated"]) {
-      //   return next({ name: "Login" });
-      // }
-      next();
-    },
   },
   {
     path: '/',
@@ -41,28 +32,31 @@ const routes = [
     path: "/insurances",
     name:  "Insurances",
     component: InsurancesPage,
-    beforeEnter: (to, from, next) => {
-      // if (!store.getters["auth/authenticated"]) {
-      //   return next({ name: "Login" });
-      // }
-      next();
-    },
   },
   {
-    path: "/insurances/:id",
+    path: "/insurance/:id",
     name:  "Insurance",
     component: InsurancePage,
-    beforeEnter: (to, from, next) => {
-      // if (!store.getters["auth/authenticated"]) {
-      //   return next({ name: "Login" });
-      // }
-      next();
-    },
   },
   {
     path: "/addinsurance",
     name:'Nouveau assurance',
     component: AddInsurancePage
+  },
+  {
+    path: "/sinistres",
+    name:'Sinistres',
+    component: SinistresPage
+  },
+  {
+    path: "/sinistre/:id",
+    name:'Sinistre',
+    component: SinistrePage
+  },
+  {
+    path: "/addSinistre/",
+    name:'Nouvelle sinistre',
+    component: AddSinistrePage
   }
 ]
 

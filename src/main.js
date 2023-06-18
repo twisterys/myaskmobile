@@ -8,7 +8,6 @@ import { IonicVue } from '@ionic/vue';
 import store from './store/index'
 import './assets/main.css';
 import 'v-calendar/style.css';
-import '@ionic/vue/css/core.css';
 
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api';

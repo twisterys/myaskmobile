@@ -2,7 +2,7 @@
 
 main{
     min-height: 100vh;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1rem 6rem 1rem;
     overflow-y: scroll ;
 }
 a {
@@ -15,7 +15,7 @@ h1 {
     background-color: white;
     border: 1px solid var(--border-color);
     border-radius: var(--full-border-radius);
-    padding: 0 1rem;
+    padding: var(--input-padding);
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;

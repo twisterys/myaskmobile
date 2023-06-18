@@ -41,74 +41,78 @@ const addHandler = (e) => {
 </script>
 
 <template>
-  <main>
-    <ToBackPageHeader text="Nouvelle demande"/>
-    <p class="phrase">Remplissez vos informations dans les champs suivant</p>
-    <PageDivider text="Informations du véhicule"/>
-    <CarCard v-for="(car) in cars" :key="car.matricule.number" :car="car" style="pointer-events: none" />
-    <div class="car-inputs">
-      <CustomInput label="Marque" placeholder="Véhicule marque.." v-model="carBrand" input-id="marque-input" rounded
-                   w-full/>
-      <CustomInput label="Modele" placeholder="Véhicule modele.." v-model="carModel" input-id="modele-input" rounded
-                   w-full/>
-      <div class="input">
-        <DatePicker locale="fr" color="sky-blue" v-model="circulationDate">
-          <template #default="{ inputValue, inputEvents }">
-            <CustomInput label="Mise en circulation" placeholder="DD/MM/YYYY" :model-value="inputValue"
-                         v-on="inputEvents" rounded w-full left>
-              <IconCalendar/>
-            </CustomInput>
-          </template>
-          <template #footer>
-            <div class="calenderButton">
-              <CustomButton @click="moveToday">Aujourd'hui</CustomButton>
-            </div>
-          </template>
-        </DatePicker>
-      </div>
-      <CustomInput type="number" label="Puissance fiscale" placeholder="Puissance fiscale.." v-model="carHP" input-id="hp-input"
-                   rounded w-full/>
-      <div class="matricule">
-        <p>Matricule :</p>
-        <div class="inputs">
-          <CustomInput type="number" :hide-label="true" v-model="carPlateNumber" placeholder="198732" rounded w-full/>
-          <select :value="alphabet" @change="$event=> alphabet = $event.target.value " class="aks-select">
-            <option value="" disabled >Alphabet</option>
-            <option  v-for="alphabet in alphabets" :key="alphabet" :value="alphabet">{{ alphabet }}</option>
-          </select>
-          <select :value="city" class="aks-select" @change="$event=> city = $event.target.value ">
-            <option value="" disabled>Ville</option>
-            <option v-for="i in 87" :key="i" :value="i">{{ i }}</option>
-          </select>
+    <main>
+      <ToBackPageHeader text="Nouvelle demande"/>
+      <p class="phrase">Remplissez vos informations dans les champs suivant</p>
+      <PageDivider text="Informations du véhicule"/>
+      <CarCard v-for="(car) in cars" :key="car.matricule.number" :car="car" style="pointer-events: none"/>
+      <div class="car-inputs">
+        <CustomInput label="Marque" placeholder="Véhicule marque.." v-model="carBrand" input-id="marque-input" rounded
+                     w-full/>
+        <CustomInput label="Modele" placeholder="Véhicule modele.." v-model="carModel" input-id="modele-input" rounded
+                     w-full/>
+        <div class="input">
+          <DatePicker locale="fr" color="sky-blue" v-model="circulationDate">
+            <template #default="{ inputValue, inputEvents }">
+              <CustomInput label="Mise en circulation" placeholder="DD/MM/YYYY" :model-value="inputValue"
+                           v-on="inputEvents" rounded w-full left>
+                <IconCalendar/>
+              </CustomInput>
+            </template>
+            <template #footer>
+              <div class="calenderButton">
+                <CustomButton @click="moveToday">Aujourd'hui</CustomButton>
+              </div>
+            </template>
+          </DatePicker>
+        </div>
+        <CustomInput type="number" label="Puissance fiscale" placeholder="Puissance fiscale.." v-model="carHP"
+                     input-id="hp-input"
+                     rounded w-full/>
+        <div class="matricule">
+          <p>Matricule :</p>
+          <div class="inputs">
+            <CustomInput type="number" :hide-label="true" v-model="carPlateNumber" placeholder="198732" rounded
+                         w-full/>
+            <select :value="alphabet" @change="$event=> alphabet = $event.target.value " class="aks-select">
+              <option value="" disabled>Alphabet</option>
+              <option v-for="alphabet in alphabets" :key="alphabet" :value="alphabet">{{ alphabet }}</option>
+            </select>
+            <select :value="city" class="aks-select" @change="$event=> city = $event.target.value ">
+              <option value="" disabled>Ville</option>
+              <option v-for="i in 87" :key="i" :value="i">{{ i }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="end">
+          <CustomButton @click="addHandler" rounded>
+            Ajouter un véhicule
+          </CustomButton>
         </div>
       </div>
-      <div class="end">
-        <CustomButton @click="addHandler" rounded>
-          Ajouter un véhicule
-        </CustomButton>
-      </div>
-    </div>
-    <PageDivider text="Information d’assurance"/>
-    <div class="couverture">
-      <p>Type de couverture:</p>
-      <div class="checkboxs">
-        <CustomCheckBox :disable="true" :checked="true" value="Responsabilité civile" label="Responsabilité civile *" name="couverture" />
-        <CustomCheckBox type="radio" v-for="couverture in typeCouverture" :key="couverture" :value="couverture" :label="couverture" name="couverture" />
-      </div>
-    </div>
-    <div class="duration">
-      <p>Durée d'assurance :</p>
-      <div class="checkboxs">
-        <div v-for="dur in [3,6,12]" :key="dur"  @click="duration= dur" class="ask-radio">
-          <span :class="duration === dur? 'active' : '' " ></span>
-          <p>{{ dur }} mois</p>
+      <PageDivider text="Information d’assurance"/>
+      <div class="couverture">
+        <p>Type de couverture:</p>
+        <div class="checkboxs">
+          <CustomCheckBox :disable="true" :checked="true" value="Responsabilité civile"
+                          label="Responsabilité civile *" name="couverture"/>
+          <CustomCheckBox type="radio" v-for="couverture in typeCouverture" :key="couverture" :value="couverture"
+                          :label="couverture" name="couverture"/>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <CustomButton rounded >Demande de devis</CustomButton>
-    </div>
-  </main>
+      <div class="duration">
+        <p>Durée d'assurance :</p>
+        <div class="checkboxs">
+          <div v-for="dur in [3,6,12]" :key="dur" @click="duration= dur" class="ask-radio">
+            <span :class="duration === dur? 'active' : '' "></span>
+            <p>{{ dur }} mois</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <CustomButton rounded>Demande de devis</CustomButton>
+      </div>
+    </main>
 </template>
 
 <style lang="scss" scoped >
