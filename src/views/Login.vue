@@ -22,70 +22,70 @@
                type="password" rounded w-full left>
           <IconKey/>
         </AskInput>
-        <div class="bar">
-          <router-link to="/restore">Mot de passe oublié ?</router-link>
-        </div>
+<!--        <div class="bar">-->
+<!--          <router-link to="/restore">Mot de passe oublié ?</router-link>-->
+<!--        </div>-->
         <AskButton w-full>
           connexion
         </AskButton>
       </div>
     </form>
   </section>
-  <section class="register">
-    <div class="logo-register">
-      <img src="../assets/whiteLogo.png" alt="logo">
-    </div>
-    <div class="drag-hook"></div>
-    <p  class="footer">Créer un compte ?</p>
-    <form @submit.prevent="registerHandler">
-      <div class="hook-container">
-        <div class="drag-hook second"></div>
-      </div>
-      <div class="form-header">
-        <h1>Inscription</h1>
-        <p>Remplissez vos informations dans les champs suivant</p>
-      </div>
-      <div v-if="registerHandler>0" class="errors">
-        <p v-for="(error,i) in registerErrors" :key="i">{{ error }}</p>
-      </div>
-      <div class="form-body">
-        <div class="row">
-          <AskInput placeholder="Votre prénom" label="Prénom" v-model="name" name="prénom"
-                 input-id="prénom-input" rounded w-full left>
-            <IconProfileCircle/>
-          </AskInput>
-          <AskInput placeholder="Votre nom" label="Nom" v-model="lastName" name="Nom" input-id="nom-input"
-                 rounded w-full left>
-            <IconProfileCircle/>
-          </AskInput>
-        </div>
-        <AskInput placeholder="Votre numéro CIN" label="Numéro CIN" v-model="identityCardNumber" name="cin"
-               input-id="cin-input"
-               rounded w-full left>
-          <IconProfileCircle/>
-        </AskInput>
-        <AskInput placeholder="Votre date de naissance" label="Date de naissance" v-model="birthday" name="birthday"
-               input-id="birthday-input"
-               rounded w-full left>
-          <IconCalendar/>
-        </AskInput>
-        <AskInput placeholder="Votre adresse" label="Adresse" v-model="address" name="adresse" input-id="adresse-input"
-               rounded w-full>
-        </AskInput>
-        <AskInput placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-register-input"
-               type="password" rounded w-full left>
-          <IconKey/>
-        </AskInput>
-        <AskButton w-full>
-          Inscription
-        </AskButton>
-        <p @click="toggleSwiper" class="toLogin">
-          <IconBack class="back"/>
-          Retourner à la page de connexion
-        </p>
-      </div>
-    </form>
-  </section>
+<!--  <section class="register">-->
+<!--    <div class="logo-register">-->
+<!--      <img src="../assets/whiteLogo.png" alt="logo">-->
+<!--    </div>-->
+<!--    <div class="drag-hook"></div>-->
+<!--    <p  class="footer">Créer un compte ?</p>-->
+<!--    <form @submit.prevent="registerHandler">-->
+<!--      <div class="hook-container">-->
+<!--        <div class="drag-hook second"></div>-->
+<!--      </div>-->
+<!--      <div class="form-header">-->
+<!--        <h1>Inscription</h1>-->
+<!--        <p>Remplissez vos informations dans les champs suivant</p>-->
+<!--      </div>-->
+<!--      <div v-if="registerHandler>0" class="errors">-->
+<!--        <p v-for="(error,i) in registerErrors" :key="i">{{ error }}</p>-->
+<!--      </div>-->
+<!--      <div class="form-body">-->
+<!--        <div class="row">-->
+<!--          <AskInput placeholder="Votre prénom" label="Prénom" v-model="name" name="prénom"-->
+<!--                 input-id="prénom-input" rounded w-full left>-->
+<!--            <IconProfileCircle/>-->
+<!--          </AskInput>-->
+<!--          <AskInput placeholder="Votre nom" label="Nom" v-model="lastName" name="Nom" input-id="nom-input"-->
+<!--                 rounded w-full left>-->
+<!--            <IconProfileCircle/>-->
+<!--          </AskInput>-->
+<!--        </div>-->
+<!--        <AskInput placeholder="Votre numéro CIN" label="Numéro CIN" v-model="identityCardNumber" name="cin"-->
+<!--               input-id="cin-input"-->
+<!--               rounded w-full left>-->
+<!--          <IconProfileCircle/>-->
+<!--        </AskInput>-->
+<!--        <AskInput placeholder="Votre date de naissance" label="Date de naissance" v-model="birthday" name="birthday"-->
+<!--               input-id="birthday-input"-->
+<!--               rounded w-full left>-->
+<!--          <IconCalendar/>-->
+<!--        </AskInput>-->
+<!--        <AskInput placeholder="Votre adresse" label="Adresse" v-model="address" name="adresse" input-id="adresse-input"-->
+<!--               rounded w-full>-->
+<!--        </AskInput>-->
+<!--        <AskInput placeholder="******" label="Mot de passe" v-model="password" name="password" input-id="password-register-input"-->
+<!--               type="password" rounded w-full left>-->
+<!--          <IconKey/>-->
+<!--        </AskInput>-->
+<!--        <AskButton w-full>-->
+<!--          Inscription-->
+<!--        </AskButton>-->
+<!--        <p @click="toggleSwiper" class="toLogin">-->
+<!--          <IconBack class="back"/>-->
+<!--          Retourner à la page de connexion-->
+<!--        </p>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </section>-->
   </ion-page>
 </template>
 <script>
@@ -100,7 +100,7 @@ import Eclipse from "@/components/icons/CustomEclipse.vue";
 import IconProfileCircle from "@/components/icons/IconProfileCircle.vue";
 import IconKey from "@/components/icons/IconKey.vue";
 import IconCalendar from "@/components/icons/IconCalendar.vue";
-import IconBack from "@/components/icons/IconBack.vue";
+// import IconBack from "@/components/icons/IconBack.vue";
 import {IonPage} from "@ionic/vue";
 
 export default defineComponent({
@@ -127,10 +127,10 @@ export default defineComponent({
 
     login() {
 
-      if (!window.navigator.onLine) {
-        this.presentAlert("Veuillez vérifier votre connexion internet");
-        return;
-      }
+      // if (!window.navigator.onLine) {
+      //   this.presentAlert("Veuillez vérifier votre connexion internet");
+      //   return;
+      // }
       if (this.user.email === "" || this.user.password === "") {
         this.presentAlert("Email et mot de passe sont obligatoire");
         return;
@@ -152,7 +152,7 @@ export default defineComponent({
                   this.presentAlert("Votre email ou mot de passe est incorecte");
                   this.showSpin = false;
                 } else {
-                  this.presentAlert("Veuillez vérifier votre connexion internet");
+                  this.presentAlert("Erreur de connexion internet . code"+ err.response.status);
                   this.showSpin = false;
 
                 }
@@ -164,8 +164,8 @@ export default defineComponent({
     AskButton,
     Eclipse,
     AskInput,
-    IconBack,
-    IconCalendar,
+    // IconBack,
+    // IconCalendar,
     IconProfileCircle,
     IconKey,
     IonPage
