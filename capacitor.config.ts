@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'ma.askgs.mobile',
+  appId: 'ma.asksgs.mobile',
   appName: 'MyAsk',
   webDir: 'dist',
   server: {
