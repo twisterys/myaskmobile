@@ -33,10 +33,10 @@ onBeforeMount(() => {
         <PageDivider text="Informations de sinistre"/>
         <div class="photos">
           <p>Photos d’accident :</p>
-          <img v-if="sinistre.justif1" src="../assets/CameraPlaceHolder.png" alt="">
-          <img v-if="sinistre.justif2" src="../assets/CameraPlaceHolder.png" alt="">
-          <img v-if="sinistre.justif3" src="../assets/CameraPlaceHolder.png" alt="">
-          <img v-if="sinistre.justif4" src="../assets/CameraPlaceHolder.png" alt="">
+          <img  src="../assets/CameraPlaceHolder.png" alt="">
+          <img  src="../assets/CameraPlaceHolder.png" alt="">
+          <img  src="../assets/CameraPlaceHolder.png" alt="">
+          <img  src="../assets/CameraPlaceHolder.png" alt="">
         </div>
         <CustomMap :latitude="sinistre.pos_x" :longitude="sinistre.pos_y"/>
         <PageDivider text="Informations du véhicule"/>

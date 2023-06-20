@@ -96,24 +96,24 @@ const routes = [
     path: "/sinistres",
     name:'Sinistres',
     component: SinistresPage,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({ name: "Login" });
-      }
-      next();
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if (!store.getters["auth/authenticated"]) {
+    //     return next({ name: "Login" });
+    //   }
+    //   next();
+    // },
   },
   {
     path: "/sinistre/:id",
     name:'Sinistre',
     component: SinistrePage,
     props:true,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({ name: "Login" });
-      }
-      next();
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if (!store.getters["auth/authenticated"]) {
+    //     return next({ name: "Login" });
+    //   }
+    //   next();
+    // },
   },
   {
     path: "/addSinistre/",
@@ -141,12 +141,12 @@ const routes = [
     path: "/notifications",
     name:'Notifications',
     component: NotificationsPage,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({ name: "Login" });
-      }
-      next();
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if (!store.getters["auth/authenticated"]) {
+    //     return next({ name: "Login" });
+    //   }
+    //   next();
+    // },
   }
 ]
 

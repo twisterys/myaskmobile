@@ -7,7 +7,23 @@ defineProps( {
 const changeHandler = (e)=>{
   const inputValue = e.target.value;
   if ( inputValue !== "" ){
-    console.log(inputValue)
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file.type.startsWith("image/")) {
+        continue;
+      }
+      const img = document.createElement("img");
+      img.classList.add("obj");
+      img.file = file;
+      e.target.parent.children[0].innerHTML = "";
+      e.target.parent.children[0].appendChild(img);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }
 </script>
@@ -33,6 +49,7 @@ const changeHandler = (e)=>{
   border-radius: var(--global-border-radius);
   overflow: clip;
   box-shadow: var(--global-shadow);
+  margin: 1.5rem 0;
 
 }
 
@@ -40,7 +57,6 @@ input {
   width: 100%;
   height: 300px;
   appearance: none;
-  background-image: url("../assets/CameraPlaceHolder.png") ;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -57,6 +73,7 @@ label figure {
   }
 }
 .footer {
+  color: white;
   background-color: var(--blue-color-400);
   padding: .5rem;
 }

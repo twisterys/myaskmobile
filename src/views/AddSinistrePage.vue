@@ -3,7 +3,10 @@ import {ref} from "vue";
 import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import CustomTextArea from "@/components/CustomTextArea.vue";
 import ImageInput from "@/components/ImageInput.vue";
-import {IonPage} from "@ionic/vue";
+import {alertController, IonPage} from "@ionic/vue";
+import router from "@/router";
+import CustomButton from "@/components/CustomButton"
+
 
 
 const cars = [{
@@ -17,6 +20,14 @@ const cars = [{
 const car = ref(cars[0].id)
 const tiers = ref('');
 const description = ref('');
+async function presentAlert(msg) {
+  const alert = await alertController.create({
+    header: "Réussie",
+    message: msg,
+    buttons: ["OK"],
+  });
+  await alert.present().then(router.back);
+}
 </script>
 
 <template>
@@ -40,6 +51,14 @@ const description = ref('');
         <div class="photos">
           <p>Photos d’accident:</p>
           <image-input input-id="image1"/>
+          <image-input input-id="image3"/>
+          <image-input input-id="image3"/>
+          <image-input input-id="image3"/>
+        </div>
+        <div class="center">
+          <CustomButton @click="presentAlert('Votre déclaration est envoyer')" rounded >
+            Envoyer la déclaration
+          </CustomButton>
         </div>
       </main>
     </ion-content>
@@ -52,6 +71,10 @@ main>*+* {
 }
 .phrase {
   color: var(--gray-color-300);
+}
+.center {
+  width: 100%;
+  text-align: center;
 }
 
 .aks-select {
