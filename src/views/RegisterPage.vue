@@ -29,7 +29,7 @@ const registerHandler = () => {
   axios.post('register',user.value)
       .then(response=>{
         presentAlert("Votre compte a été créé avec succès","Réussie!");
-      })
+      }).then(router.back)
       .catch(err=>{
         const errors = err.response.data.errors
         const header ="Attention!";
@@ -49,7 +49,7 @@ async function presentAlert(msg,header) {
     message: msg,
     buttons: ["OK"],
   });
-  await alert.present().then(router.back);
+  await alert.present()
 }
 </script>
 
