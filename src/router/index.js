@@ -10,6 +10,7 @@ import SinistrePage from "@/views/SinistrePage.vue";
 import AddSinistrePage from "@/views/AddSinistrePage.vue";
 import AssistancePage from "@/views/AssistancePage.vue";
 import NotificationsPage from "@/views/NotificationsPage.vue";
+import RegisterPage from "@/views/RegisterPage.vue";
 
 const routes = [
   {
@@ -40,6 +41,9 @@ const routes = [
   {
     path: '/',
     redirect: '/login',
+    meta:{
+      hideNavBar: true
+    },
     beforeEnter: (to, from, next) => {
       if (store.getters["auth/authenticated"]) {
         return next({ name: "Home" });
@@ -85,6 +89,9 @@ const routes = [
     path: "/addinsurance",
     name:'Nouveau assurance',
     component: AddInsurancePage,
+    meta:{
+      hideNavBar: true
+    },
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({ name: "Login" });
@@ -96,29 +103,32 @@ const routes = [
     path: "/sinistres",
     name:'Sinistres',
     component: SinistresPage,
-    // beforeEnter: (to, from, next) => {
-    //   if (!store.getters["auth/authenticated"]) {
-    //     return next({ name: "Login" });
-    //   }
-    //   next();
-    // },
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({ name: "Login" });
+      }
+      next();
+    },
   },
   {
     path: "/sinistre/:id",
     name:'Sinistre',
     component: SinistrePage,
     props:true,
-    // beforeEnter: (to, from, next) => {
-    //   if (!store.getters["auth/authenticated"]) {
-    //     return next({ name: "Login" });
-    //   }
-    //   next();
-    // },
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({ name: "Login" });
+      }
+      next();
+    },
   },
   {
     path: "/addSinistre/",
     name:'Nouvelle sinistre',
     component: AddSinistrePage,
+    meta:{
+      hideNavBar: true
+    },
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({ name: "Login" });
@@ -141,12 +151,26 @@ const routes = [
     path: "/notifications",
     name:'Notifications',
     component: NotificationsPage,
-    // beforeEnter: (to, from, next) => {
-    //   if (!store.getters["auth/authenticated"]) {
-    //     return next({ name: "Login" });
-    //   }
-    //   next();
-    // },
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({ name: "Login" });
+      }
+      next();
+    },
+  },
+  {
+    path: "/register",
+    name:'Registration',
+    component: RegisterPage,
+    meta:{
+      hideNavBar: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (store.getters["auth/authenticated"]) {
+        return next({ name: "Home" });
+      }
+      next();
+    },
   }
 ]
 

@@ -21,8 +21,8 @@ if (props.sinistre.status.toLowerCase() === "reviewed") {
         <h3 class="title">{{ sinistre.id_number }}</h3>
         <div class="status">
           <span></span>
-          <span v-if="sinistre.status==='reviewed'" >Traité</span>
-          <span v-if="sinistre.status==='inreview'" >En cours</span>
+          <span v-if="sinistre.status.toLowerCase()==='reviewed'" >Traité</span>
+          <span v-if="sinistre.status.toLowerCase() ==='inreview'" >En cours</span>
         </div>
       </div>
       <div class="body">

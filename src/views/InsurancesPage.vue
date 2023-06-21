@@ -92,5 +92,7 @@ onBeforeMount(() => {
       color: var(--white-color);
     }
   }
+
 }
+
 </style>
