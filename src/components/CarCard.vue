@@ -8,16 +8,16 @@ defineProps({
 <RouterLink :to="'car/' + car.id">
   <div class="ask-card">
     <div class="header">
-      <h3 class="title">{{car.mark}}</h3>
+      <h3 class="title">{{ car.mark }}</h3>
     </div>
     <div class="body">
       <div class="info">
         <span>Modele: </span>
-        <span>{{car.model}}</span>
+        <span>{{ car.model }}</span>
       </div>
       <div class="info">
         <span>Mise en circulation: </span>
-        <span>{{new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation))}}</span>
+        <span>{{ new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation)) }}</span>
       </div>
     </div>
     <div class="footer">
@@ -30,6 +30,7 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
+
 .ask-card {
   padding: .8rem;
   box-shadow: var(--global-shadow);
@@ -47,7 +48,6 @@ h3 {
 
   .info {
     color: var(--black-color);
-
     span:not(:first-child) {
       color: var(--gray-color-300);
     }
@@ -56,6 +56,7 @@ h3 {
   * + * {
     margin-top: .7rem;
   }
+
 }
 .footer {
   margin-top: .7rem;
