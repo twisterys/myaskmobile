@@ -2,7 +2,22 @@
 defineProps({
   car:Object
 })
+
+function fdate (unformated_date){
+  if(unformated_date==="" || unformated_date === null || unformated_date === undefined)
+    return "" ;
+  else {
+   return unformated_date.toLocaleString("fr-FR", {
+     dateStyle: "short",
+   });
+
+
+  }
+
+}
 </script>
+
+
 
 <template>
 <RouterLink :to="'car/' + car.id">
@@ -17,7 +32,7 @@ defineProps({
       </div>
       <div class="info">
         <span>Mise en circulation: </span>
-        <span>{{ new Intl.DateTimeFormat('fr-CA').format(new Date(car.circulation)) }}</span>
+        <span>{{ fdate(car.circulation) }}</span>
       </div>
     </div>
     <div class="footer">

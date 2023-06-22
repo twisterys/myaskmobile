@@ -8,7 +8,7 @@ import IconCalendar from "@/components/icons/IconCalendar.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CarCard from "@/components/CarCard.vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
-import {IonContent, IonPage} from "@ionic/vue";
+import {alertController, IonContent, IonPage} from "@ionic/vue";
 
 const cars = ref([]);
 const carBrand = ref("");
@@ -21,19 +21,48 @@ const carPlateNumber= ref("");
 const alphabets = ref(["أ", "ب", "د", 'ج', "ي", "و"]);
 const typeCouverture = ["Def et Recrs","Incendie","Tierce","Bris de glaces","Vol","Collision","Perte finance","Assistance"];
 const duration = ref(3);
-const addHandler = (e) => {
-  cars.value.push({
-    marque: carBrand.value,
-    modele: carModel.value,
-    horsePower: carHP.value,
-    circulation_date: circulationDate.value,
-    matricule: {
-      number: carPlateNumber.value,
-      alphabet: alphabet.value,
-      city: city.value
-    }
+
+async function presentAlert(msg,header) {
+  const alert = await alertController.create({
+    header: header,
+    message: msg,
+    buttons: ["OK"],
   });
-  [carModel,carBrand,carHP,circulationDate,alphabet,city,carPlateNumber].forEach(co=>co.value="")
+  await alert.present()
+}
+
+function check_date(date) {
+  return date ;
+}
+
+function empty_check(attr)
+{
+   if(attr==="" || attr === null || attr === undefined)
+      return true ;
+   else
+     return false;
+}
+const addHandler = (e) => {
+  if(empty_check(carBrand.value)  || empty_check(carModel.value) || empty_check(carHP.value) || empty_check(circulationDate.value) ||
+      empty_check(carPlateNumber.value) || empty_check(alphabets.value) || empty_check(city.value))
+  {
+    presentAlert('Merci de remplir toutes les informations du véhicule')
+
+  } else {
+    cars.value.push({
+      mark: carBrand.value,
+      model: carModel.value,
+      horsePower: carHP.value,
+      circulation : check_date(circulationDate.value),
+      matricule: {
+        mat1: carPlateNumber.value,
+        mat2: alphabet.value,
+        mat3: city.value
+      }
+    });
+    [carModel,carBrand,carHP,circulationDate,alphabet,city,carPlateNumber].forEach(co=>co.value="")
+  }
+
 };
 
   function moveToday() {
