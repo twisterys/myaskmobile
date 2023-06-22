@@ -161,7 +161,6 @@ section {
 .login {
   margin-top: 30vh;
   width: 100%;
-  height: 100%;
 
   form {
     width: 100%;

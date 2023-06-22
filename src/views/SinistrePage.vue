@@ -33,12 +33,17 @@ onBeforeMount(() => {
         <PageDivider text="Informations de sinistre"/>
         <div class="photos">
           <p>Photos d’accident :</p>
-          <img  src="../assets/CameraPlaceHolder.png" alt="">
-          <img  src="../assets/CameraPlaceHolder.png" alt="">
-          <img  src="../assets/CameraPlaceHolder.png" alt="">
-          <img  src="../assets/CameraPlaceHolder.png" alt="">
+         <div class="photos-container">
+           <img  src="../assets/CameraPlaceHolder.png" alt="">
+           <img  src="../assets/CameraPlaceHolder.png" alt="">
+           <img  src="../assets/CameraPlaceHolder.png" alt="">
+           <img  src="../assets/CameraPlaceHolder.png" alt="">
+         </div>
         </div>
-        <CustomMap :latitude="sinistre.pos_x" :longitude="sinistre.pos_y"/>
+        <div class="map">
+          <p>Localisation :</p>
+          <CustomMap :latitude="sinistre.pos_x" :longitude="sinistre.pos_y"/>
+        </div>
         <PageDivider text="Informations du véhicule"/>
         <CarCard v-if="sinistre.car" :car="sinistre.car"/>
 <!--        <PageDivider text="Information d’assurance"/>-->
@@ -68,7 +73,7 @@ onBeforeMount(() => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: .5rem;
+  gap: 1rem;
 }
 .info {
   margin-top: 1rem;
@@ -84,5 +89,10 @@ onBeforeMount(() => {
   flex-direction: row;
   flex-wrap: wrap;
   gap: .5rem;
+}
+.map {
+  *{
+    margin: .5rem 0;
+  }
 }
 </style>

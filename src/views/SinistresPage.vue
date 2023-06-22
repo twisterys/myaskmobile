@@ -11,7 +11,7 @@ const sinistres = ref([]);
 const filterBy = ref('all')
 
 function filter(e) {
-  document.querySelectorAll('.filter').forEach(o => o.classList.remove('active'))
+  document.querySelectorAll('.filter-sinistre').forEach(o => o.classList.remove('active'))
   e.target.classList.add('active');
   filterBy.value = e.target.dataset.filter.trim();
 }
@@ -44,13 +44,13 @@ onBeforeMount(() => {
         <icon-add class="icon" @click="router.push('/addsinistre')"/>
       </PageHeader>
       <div class="filter-bar">
-        <div @click="filter" data-filter="all" class="filter active">
+        <div @click="filter" data-filter="all" class="filter-sinistre active">
           Tous
         </div>
-        <div @click="filter" data-filter="reviewed" class="filter">
+        <div @click="filter" data-filter="reviewed" class="filter-sinistre">
           Traité
         </div>
-        <div @click="filter" data-filter="inreview" class="filter">
+        <div @click="filter" data-filter="inreview" class="filter-sinistre">
           En cours
         </div>
       </div>
@@ -81,7 +81,7 @@ onBeforeMount(() => {
     display: none;
   }
 
-  .filter {
+  .filter-sinistre {
     padding: .3rem 1rem;
     box-shadow: var(--global-shadow);
     border-radius: var(--full-border-radius);

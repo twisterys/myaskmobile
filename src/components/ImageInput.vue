@@ -1,30 +1,31 @@
-<script setup >
-defineProps( {
-  inputId:String
+<script setup>
+import {ref} from "vue";
+import CustomButton from "@/components/CustomButton.vue";
+
+defineProps({
+  inputId: String
 })
-
-
-const changeHandler = (e)=>{
-  const inputValue = e.target.value;
-  if ( inputValue !== "" ){
-    const files = e.target.files;
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      if (!file.type.startsWith("image/")) {
-        continue;
-      }
-      const img = document.createElement("img");
-      img.classList.add("obj");
-      img.file = file;
-      e.target.parent.children[0].innerHTML = "";
-      e.target.parent.children[0].appendChild(img);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+const filename = ref("Aucune image");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const changeHandler = (e) => {
+  if (e.target.files[0] && e.target.files[0].type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      e.target.previousSibling.children[0].src = event.target.result;
+    });
+    reader.readAsDataURL(e.target.files[0]);
+    filename.value = e.target.files[0].name;
+  } else {
+    e.target.previousSibling.children[0].src = new URL(`../assets/CameraPlaceHolder.png`, import.meta.url);
+    filename.value = "Aucune image";
   }
+}
+const clearImage = (e) => {
+  const img = e.target.parentElement.previousSibling.children[0].children[0].children[0];
+  const input =e.target.parentElement.previousSibling.children[0].children[1]
+  img.src = new URL(`../assets/CameraPlaceHolder.png`, import.meta.url);
+  input.value = '';
+  filename.value = "Aucune image";
 }
 </script>
 
@@ -39,7 +40,10 @@ const changeHandler = (e)=>{
       </label>
     </div>
     <div class="footer">
-      file name
+      <p> {{ filename }}</p>
+      <CustomButton @click="clearImage"
+                    STYLE="background-color: white !important; color: var(--blue-color-400) !important">Supprimer
+      </CustomButton>
     </div>
   </div>
 </template>
@@ -64,8 +68,9 @@ input {
 label figure {
   pointer-events: none;
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   overflow: clip;
+
   img {
     width: 100%;
     display: block;
@@ -76,5 +81,18 @@ label figure {
   color: white;
   background-color: var(--blue-color-400);
   padding: .5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  flex-grow: 0;
+  width: 100%;
+
+  p {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 </style>

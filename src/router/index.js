@@ -55,6 +55,9 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    meta:{
+      hideNavBar: true
+    },
     beforeEnter: (to, from, next) => {
       if (store.getters["auth/authenticated"]) {
         return next({ name: "Home" });

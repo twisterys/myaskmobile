@@ -9,19 +9,19 @@ import axios from "axios";
 
 
 const insurances = ref([]);
-const filterBy = ref('all')
+const filterByInsurance = ref('all')
 function  filter(e) {
   document.querySelectorAll('.filter').forEach(o=>o.classList.remove('active'))
   e.target.classList.add('active');
-  filterBy.value = e.target.dataset.filter.trim();
+  filterByInsurance.value = e.target.dataset.filter.trim();
 
 }
 const filteredData = computed(
     ()=>{
-      if (filterBy.value.toLowerCase()==='all'){
+      if (filterByInsurance.value.toLowerCase()==='all'){
         return insurances.value;
       }else {
-        return insurances.value.filter(a=>a.status.trim().toLowerCase() === filterBy.value.toLowerCase())
+        return insurances.value.filter(a=>a.status.trim().toLowerCase() === filterByInsurance.value.toLowerCase())
       }
     }
 )

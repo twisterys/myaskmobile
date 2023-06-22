@@ -1,23 +1,17 @@
 <script setup>
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import CustomTextArea from "@/components/CustomTextArea.vue";
 import ImageInput from "@/components/ImageInput.vue";
 import {alertController, IonPage} from "@ionic/vue";
 import router from "@/router";
 import CustomButton from "@/components/CustomButton"
+import axios from "axios";
 
 
 
-const cars = [{
-  id: 1,
-  matricule: {
-    number: "198732",
-    alphabet: "د",
-    city: "06"
-  }
-}];
-const car = ref(cars[0].id)
+const cars = ref([]);
+const car = ref();
 const tiers = ref('');
 const description = ref('');
 async function presentAlert(msg) {
@@ -28,6 +22,12 @@ async function presentAlert(msg) {
   });
   await alert.present().then(router.back);
 }
+onBeforeMount(()=>{
+  axios.get('cars_show').then(response=>{
+   cars.value = response.data.cars;
+   car.value = response.data.cars[0].id;
+  })
+})
 </script>
 
 <template>
@@ -39,10 +39,10 @@ async function presentAlert(msg) {
         <div class="car">
           <p>Véhicule :</p>
           <select :value="car" class="aks-select" @change="$event=> car = $event.target.value ">
-            <option v-for="car in cars" :key="car.id" :value="car.id"> {{ car.matricule.city }} {{
-                car.matricule.alphabet
+            <option  v-for="car in cars" :key="car.id" :value="car.id"> {{ car.mat3 }} {{
+                car.mat2
               }}
-              {{ car.matricule.number }}
+              {{ car.mat1 }}
             </option>
           </select>
         </div>
