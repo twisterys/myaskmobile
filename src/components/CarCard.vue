@@ -10,14 +10,9 @@ function fdate (unformated_date){
    return unformated_date.toLocaleString("fr-FR", {
      dateStyle: "short",
    });
-
-
   }
-
 }
 </script>
-
-
 
 <template>
 <RouterLink :to="'car/' + car.id">

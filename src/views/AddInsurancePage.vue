@@ -9,6 +9,9 @@ import CustomButton from "@/components/CustomButton.vue";
 import CarCard from "@/components/CarCard.vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
 import {alertController, IonContent, IonPage} from "@ionic/vue";
+import AskNavbar from "@/components/AskNavbar";
+import axios from "axios";
+import router from "@/router";
 
 const cars = ref([]);
 const carBrand = ref("");
@@ -42,6 +45,7 @@ function empty_check(attr)
    else
      return false;
 }
+
 const addHandler = (e) => {
   if(empty_check(carBrand.value)  || empty_check(carModel.value) || empty_check(carHP.value) || empty_check(circulationDate.value) ||
       empty_check(carPlateNumber.value) || empty_check(alphabets.value) || empty_check(city.value))
@@ -62,8 +66,25 @@ const addHandler = (e) => {
     });
     [carModel,carBrand,carHP,circulationDate,alphabet,city,carPlateNumber].forEach(co=>co.value="")
   }
-
 };
+const send_request = function () {
+  axios.post('insurance_add', {
+    duration : duration.value,
+    cars : cars.value
+  })
+      .then(response=>{
+        presentAlert("Votre demande de devis est envoyé","Réussie!");
+      }).then(router.back)
+      .catch(err=>{
+        const errors = err.response.data.errors
+        const header ="Attention!";
+        let msg ='';
+        for (const error in errors) {
+          msg = errors[error][0]
+        }
+        presentAlert(msg,header);
+      })
+}
 
   function moveToday() {
     circulationDate.value = new Date();
@@ -135,14 +156,20 @@ const addHandler = (e) => {
         <div class="duration">
           <p>Durée d'assurance :</p>
           <div class="checkboxs">
-            <div v-for="dur in [3,6,12]" :key="dur" @click="duration= dur" class="ask-radio">
-              <span :class="duration === dur? 'active' : '' "></span>
-              <p>{{ dur }} mois</p>
-            </div>
+            <input type="radio" id="one" value="3" v-model="duration" class="ask-radio" name="duration"/>
+            <label for="one">3mois</label>
+            <input type="radio" id="two" value="6" v-model="duration" class="ask-radio" name="duration"/>
+            <label for="one">6mois</label>
+            <input type="radio" id="two" value="12" v-model="duration" class="ask-radio" name="duration"/>
+            <label for="two">12mois</label>
+
+
           </div>
         </div>
         <div class="footer">
-          <CustomButton rounded>Demande de devis</CustomButton>
+          <AskButton  @click="send_request" w-full>
+            Demander un devis
+          </AskButton>
         </div>
       </main>
     </ion-content>
@@ -219,6 +246,63 @@ div.matricule .inputs {
 }
 .duration {
   margin-top: 1rem;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 .footer {
   margin: 2rem 0 1rem 0;
