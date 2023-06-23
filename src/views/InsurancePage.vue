@@ -5,7 +5,7 @@ import CarCard from "@/components/CarCard.vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
 import {IonContent, IonPage} from "@ionic/vue";
 import axios from "axios";
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, onActivated, onBeforeMount, onBeforeUpdate, onMounted, ref} from "vue";
 
 const props = defineProps({
   id: Number
@@ -13,7 +13,8 @@ const props = defineProps({
 
 const insurance = ref([]);
 const date = ref('');
-onBeforeMount(() => {
+
+onMounted(() => {
       axios.get(`insurance_show/${props.id}`).then(response => {
         insurance.value= response.data.insurance;
         date.value =new Intl.DateTimeFormat('fr-CA', {
@@ -25,6 +26,19 @@ onBeforeMount(() => {
 
     }
 )
+
+onBeforeUpdate(() => {
+  axios.get(`insurance_show/${props.id}`).then(response => {
+    insurance.value= response.data.insurance;
+    date.value =new Intl.DateTimeFormat('fr-CA', {
+      "year": "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(new Date(response.data.insurance.start_from).setMonth(new Date(response.data.insurance.start_from).getMonth()+response.data.insurance.duration))
+  });
+
+}) ;
+
 </script>
 
 <template>
@@ -50,9 +64,7 @@ onBeforeMount(() => {
         <div  class="couverture">
           <span>Type de couverture : </span>
           <div class="types">
-            <CustomCheckBox v-for="(couverture,i) in insurance.types" :key="couverture + i" :label="couverture"
-                            :model-value="couverture.trim().toLowerCase()" name="couverture" :disable="true"
-                            :checked="true"/>
+            {{insurance.couverture}}
           </div>
         </div>
       </main>

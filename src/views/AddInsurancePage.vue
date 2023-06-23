@@ -167,9 +167,9 @@ const send_request = function () {
           </div>
         </div>
         <div class="footer">
-          <AskButton  @click="send_request" w-full>
+          <CustomButton  @click="send_request" w-full>
             Demander un devis
-          </AskButton>
+          </CustomButton>
         </div>
       </main>
     </ion-content>

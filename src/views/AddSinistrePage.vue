@@ -14,6 +14,28 @@ const cars = ref([]);
 const car = ref();
 const tiers = ref('');
 const description = ref('');
+
+function sendSinitre(){
+
+  axios.post('sinistre_add', {
+    car_id : car.value,
+    tiers : tiers.value,
+    description : description.value
+  })
+      .then(response=>{
+        presentAlert("Votre déclaration est envoyé","Réussie!");
+      }).then(router.back)
+      .catch(err=>{
+        const errors = err.response.data.errors
+        const header ="Attention!";
+        const msg ='Merci de vérifier les informations saisies';
+        // for (const error in errors) {
+        //   msg = errors[error][0]
+        // }
+        presentAlert(msg,header);
+      })
+
+}
 async function presentAlert(msg) {
   const alert = await alertController.create({
     header: "Réussie",
@@ -56,7 +78,7 @@ onBeforeMount(()=>{
           <image-input input-id="image3"/>
         </div>
         <div class="center">
-          <CustomButton @click="presentAlert('Votre déclaration est envoyer')" rounded >
+          <CustomButton @click="sendSinitre" rounded >
             Envoyer la déclaration
           </CustomButton>
         </div>

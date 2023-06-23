@@ -5,14 +5,14 @@ import CustomMap from "@/components/CustomMap.vue";
 import CarCard from "@/components/CarCard.vue";
 import {IonContent, IonPage} from "@ionic/vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import axios from "axios";
 const props = defineProps({
   id:String
 })
 
 const  sinistre = ref("");
-onBeforeMount(() => {
+onMounted(() => {
       axios.get(`sinistre_show/${props.id}`).then(response=> {
         if (response.data.sinistre){
           sinistre.value = response.data.sinistre
