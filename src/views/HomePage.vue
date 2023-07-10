@@ -27,10 +27,7 @@ onBeforeMount(() => {
       })
     }
 )
-const logout = () => {
-  localStorage.clear();
-  router.go();
-}
+
 </script>
 
 <template>
@@ -45,7 +42,6 @@ const logout = () => {
         <PageDivider text="Mes derniers sinistres"/>
         <SinistreCard v-for="sinistre in sinistres" :key="sinistre.id" :sinistre="sinistre"/>
     </main>
-
     </ion-content>
   </ion-page>
 </template>
