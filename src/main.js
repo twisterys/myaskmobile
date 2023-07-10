@@ -17,7 +17,7 @@ import '@ionic/vue/css/structure.css';
 import '@ionic/vue/css/typography.css';
 
 
-axios.defaults.baseURL = 'https://myask.vdemos.xyz/api';
+// axios.defaults.baseURL = 'https://myask.vdemos.xyz/api';
 
 
 axios.interceptors.request.use(
