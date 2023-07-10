@@ -11,6 +11,7 @@ import AddSinistrePage from "@/views/AddSinistrePage.vue";
 import AssistancePage from "@/views/AssistancePage.vue";
 import NotificationsPage from "@/views/NotificationsPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
+import SettingsPage from "@/views/SettingsPage.vue";
 
 const routes = [
   {
@@ -174,7 +175,18 @@ const routes = [
       }
       next();
     },
-  }
+  },
+  {
+    path: "/settings",
+    name:'Settings',
+    component: SettingsPage,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({ name: "Login" });
+      }
+      next();
+    },
+  },
 ]
 
 const router = createRouter({

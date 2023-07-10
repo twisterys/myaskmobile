@@ -1,13 +1,14 @@
 <script setup >
 import {IonPage,IonContent} from "@ionic/vue";
 import PageHeader from "@/components/PageHeader.vue";
+import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 </script>
 
 <template>
 <ion-page>
   <ion-content :fullscreen="true">
     <main>
-      <page-header text="Notifications" />
+      <ToBackPageHeader text="Notifications" />
       <div class="not">
         Vous n'avez aucune notification pour le moment
       </div>

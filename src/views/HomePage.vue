@@ -8,6 +8,7 @@ import {onBeforeMount, ref} from "vue";
 import axios from "axios";
 import IconLogout from "@/components/icons/IconLogout.vue";
 import {useRouter} from "vue-router";
+import IconNotification from "@/components/icons/IconNotification.vue";
 
 const router = useRouter();
 const insurances = ref([]);
@@ -37,7 +38,7 @@ const logout = () => {
     <ion-content :fullscreen="true" >
     <main>
     <PageHeader text="Accueil" :icon="true">
-      <IconLogout @click="logout" style="width: 35px;color: var(--danger-color)"/>
+      <router-link to="/notifications"><icon-notification style="width: 35px;color:#222222"/></router-link>
         </PageHeader>
         <PageDivider text="Contrat d’assurance"/>
         <InsuranceCard v-for="insurance in insurances" :key="insurance.id" :insurance="insurance"/>

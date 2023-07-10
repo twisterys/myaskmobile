@@ -21,8 +21,8 @@ import IconNotification from "@/components/icons/IconNotification.vue";
     <RouterLink class="nav-link" to="/assistance">
       <IconCar/>
     </RouterLink>
-    <RouterLink class="nav-link" to="/notifications">
-      <icon-notification/>
+    <RouterLink class="nav-link" to="/settings">
+      <icon-settings/>
     </RouterLink>
   </nav>
 </template>
