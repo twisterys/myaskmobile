@@ -47,27 +47,7 @@ async function presentAlert(msg) {
       <page-header text="Settings" :icon="true">
         <icon-logout @click="logout" style="width: 35px; color: #dc3545"/>
       </page-header>
-      <page-divider text="Mes informations"/>
-      <div class="info">
-        <span>Nom : </span>
-        <span>{{null}}</span>
-      </div>
-      <div class="info">
-        <span>Numéro CIN : </span>
-        <span>{{null}}</span>
-      </div>
-      <div class="info">
-        <span>Email :</span>
-        <span>{{null}}</span>
-      </div>
-      <div class="info">
-        <span>Date de Naissance :</span>
-        <span>{{null}}</span>
-      </div>
-      <div class="info">
-        <span>Adresse :</span>
-        <span>{{null}}</span>
-      </div>
+    
 
       <page-divider text="Mon compte" />
       <div class="info">
