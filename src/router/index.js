@@ -12,6 +12,7 @@ import AssistancePage from "@/views/AssistancePage.vue";
 import NotificationsPage from "@/views/NotificationsPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
 import SettingsPage from "@/views/SettingsPage.vue";
+import EmailVerify from "@/views/EmailVerify.vue";
 
 const routes = [
   {
@@ -35,6 +36,9 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({ name: "Login" });
+      }
+      if (!store.getters["auth/verified"]){
+        return next({name:"email_verify"})
       }
       next();
     },
@@ -187,6 +191,14 @@ const routes = [
       next();
     },
   },
+  {
+    path:"/emailVerify",
+    name: "email.verify",
+    component: EmailVerify,
+    meta: {
+      hideNavBar: true
+    }
+  }
 ]
 
 const router = createRouter({

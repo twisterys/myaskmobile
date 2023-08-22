@@ -5,31 +5,32 @@
       <div class="logo">
         <img src="../assets/logo.png" alt="logo">
       </div>
-      <section class="login">
-        <form @submit.prevent="login()">
-          <div class="form-header">
-            <h1>S’identifier</h1>
-            <p>Remplissez vos informations de connexion</p>
-          </div>
-          <div v-if="loginErrors>0" class="errors">
-            <p v-for="(error,i) in loginErrors" :key="i">{{ error }}</p>
-          </div>
-          <div class="form-body">
-            <AskInput placeholder="email@example" label="Email" v-model="user.email" name="identifient"
-                      input-id="identifient-input" rounded w-full left>
-              <IconProfileCircle/>
-            </AskInput>
-            <AskInput placeholder="******" label="Mot de passe" v-model="user.password" name="password" input-id="password-input"
-                      type="password" rounded w-full left>
-              <IconKey/>
-            </AskInput>
-            <AskButton w-full>
-              connexion
-            </AskButton>
+      <div id="content" >
+        <section class="login">
+          <form @submit.prevent="login()">
+            <div class="form-header">
+              <h1>S’identifier</h1>
+              <p>Remplissez vos informations de connexion</p>
+            </div>
+            <div v-if="loginErrors>0" class="errors">
+              <p v-for="(error,i) in loginErrors" :key="i">{{ error }}</p>
+            </div>
+            <div class="form-body">
+              <AskInput placeholder="email@example" label="Email" v-model="user.email" name="identifient"
+                        input-id="identifient-input" rounded w-full left>
+                <IconProfileCircle/>
+              </AskInput>
+              <AskInput placeholder="******" label="Mot de passe" v-model="user.password" name="password" input-id="password-input"
+                        type="password" rounded w-full left>
+                <IconKey/>
+              </AskInput>
+              <AskButton w-full>
+                connexion
+              </AskButton>
 
-          </div>
-        </form>
-      </section>
+            </div>
+          </form>
+        </section>
         <section class="register">
           <div class="logo-register">
             <img src="../assets/whiteLogo.png" alt="logo">
@@ -38,6 +39,7 @@
           <div class="drag-hook"></div>
           <p  class="footer"> <RouterLink to="/register"><a style="color: white !important;">Créer un compte ?</a> </RouterLink></p>
         </section>
+      </div>
     </IonContent>
   </ion-page>
 </template>
@@ -216,9 +218,6 @@ div.center {
 .register {
   background-color: var(--blue-color-400);
   color: var(--white-color);
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   border-radius: 3rem 3rem 0 0;
   padding: 1rem;
@@ -227,8 +226,6 @@ div.center {
   gap: .7rem;
   align-items: center;
   transition: all ease-in-out 200ms;
-  transform: translateY(calc(100% - 4.5rem));
-  height: 100vh;
   .logo-register {
     display: none;
   }
@@ -331,5 +328,11 @@ div.center {
       position: static;
     }
   }
+}
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 </style>

@@ -19,6 +19,16 @@ export default{
         }
         return state.user;
     }
+    ,
+    verified(state){
+        if (state.user){
+            return state.user.email_verified_at;
+        }else {
+            const user = localStorage.getItem('user');
+            state.user = user;
+        }
+        return state.user.email_verified_at;
+    }
     /* userId(state){
         if(state.user == null){
             offlineStorage.get("user").then(res=>{
