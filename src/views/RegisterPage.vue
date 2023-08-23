@@ -28,7 +28,7 @@ const user = ref({
 const registerHandler = () => {
   axios.post('register',user.value)
       .then(response=>{
-        presentAlert("Votre compte a été créé avec succès","Réussie!");
+        presentAlert("Un lien de confirmation est envoyé à votre adresse email veuillez vérifier votre boîte email","Réussie!");
       }).then(router.back)
       .catch(err=>{
         const errors = err.response.data.errors

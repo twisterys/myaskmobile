@@ -1,6 +1,9 @@
 <template>
   <ion-page>
     <IonContent :fullscreen="true" >
+      <div class="overlay" v-if="showLoader" >
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
       <Eclipse class="eclipse"/>
       <div class="logo">
         <img src="../assets/logo.png" alt="logo">
@@ -32,10 +35,6 @@
           </form>
         </section>
         <section class="register">
-          <div class="logo-register">
-            <img src="../assets/whiteLogo.png" alt="logo">
-          </div>
-
           <div class="drag-hook"></div>
           <p  class="footer"> <RouterLink to="/register"><a style="color: white !important;">Créer un compte ?</a> </RouterLink></p>
         </section>
@@ -54,9 +53,8 @@ import AskInput from "@/components/CustomInput.vue";
 import Eclipse from "@/components/icons/CustomEclipse.vue";
 import IconProfileCircle from "@/components/icons/IconProfileCircle.vue";
 import IconKey from "@/components/icons/IconKey.vue";
-import IconCalendar from "@/components/icons/IconCalendar.vue";
-// import IconBack from "@/components/icons/IconBack.vue";
-import {IonPage,IonContent} from "@ionic/vue";
+import {IonPage,IonContent,IonSpinner} from "@ionic/vue";
+import axios from "axios";
 
 export default defineComponent({
   name: "LoginPage",
@@ -68,16 +66,42 @@ export default defineComponent({
         email: "",
         password: "",
       },
+      showLoader:false
     };
   },
   methods: {
-    async presentAlert(msg) {
+    async presentAlert(msg,header ='Attention',buttons=['OK']) {
       const alert = await alertController.create({
-        header: "Attention",
+        header: header,
         message: msg,
-        buttons: ["OK"],
+        buttons:buttons,
       });
       await alert.present();
+    },
+    async  emailVerificationAlert(userId,btn_text){
+      const alert1 = await alertController.create({
+        header: "Veuillez vérifier votre email",
+        message: "Un lien de confirmation est envoyé à votre adresse email veuillez vérifier votre boîte email",
+        buttons:[
+          {
+            text: btn_text,
+            handler: () => {
+              this.showLoader = true;
+              axios.post('email/verification/resend',{id:userId}).then(response=>{
+                this.showLoader = false;
+                this.presentAlert(response.data.message)
+              }).catch(err=>{
+                this.showLoader = false;
+                this.presentAlert(err.response.data.message);
+              })
+            },
+          },
+          {
+            text: 'ok',
+          },
+        ],
+      });
+      await alert1.present();
     },
 
     login() {
@@ -104,9 +128,13 @@ export default defineComponent({
                     Number(err.response.status) === 401 ||
                     Number(err.response.status) === 404
                 ) {
-                  this.presentAlert("Votre email ou mot de passe est incorecte");
+                  this.presentAlert(err.response.data.message);
                   this.showSpin = false;
-                } else {
+                }else if(Number(err.response.status) === 403){
+                  this.emailVerificationAlert(err.response.data.data.id,'Renvoyer');
+                }
+                else {
+
                   this.presentAlert("Erreur de connexion internet . code"+ err.response.status);
                   this.showSpin = false;
 
@@ -159,7 +187,23 @@ section {
   display: flex;
   padding-top:10vh ;
 }
-
+.overlay {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  >*{
+    color: white;
+    width:50px;
+    height:50px;
+  }
+}
 .login {
   margin-top: 30vh;
   width: 100%;
@@ -239,7 +283,7 @@ div.center {
     width: 3rem;
     background-color: var(--white-color);
     border-radius: 100px;
-    z-index: 99;
+    z-index: 2;
     pointer-events: all;
   }
   .drag-hook.second {
