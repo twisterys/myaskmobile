@@ -7,6 +7,7 @@ import {IonContent, IonPage} from "@ionic/vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
 import {onBeforeMount, onMounted, ref} from "vue";
 import axios from "axios";
+import ReportCard from "@/components/ReportCard.vue";
 const props = defineProps({
   id:String
 })
@@ -57,8 +58,8 @@ onMounted(() => {
 <!--            <CustomCheckBox :checked="true" :disable="true" v-for="couverture in sinistre.insurance.couvertures" :key="couverture" :label="couverture"  />-->
 <!--          </div>-->
 <!--        </div>-->
-<!--        <PageDivider text="Rapport d'expertise" />-->
-
+        <PageDivider text="Rapport d'expertise" />
+        <ReportCard v-for="(report,i) in sinistre.reports" :key="report.id" :number="i" :report="report"></ReportCard>
       </main>
     </ion-content>
   </ion-page>

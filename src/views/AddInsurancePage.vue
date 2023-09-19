@@ -147,7 +147,7 @@ const send_request = function () {
         <div class="couverture">
           <p>Type de couverture:</p>
           <div class="checkboxs">
-            <CustomCheckBox :disable="true" :checked="true" value="Responsabilité civile"
+            <CustomCheckBox :disable="true" :checked="true" value=""
                             label="Responsabilité civile *" name="couverture"/>
             <CustomCheckBox type="radio" v-for="couverture in typeCouverture" :key="couverture" :value="couverture"
                             :label="couverture" name="couverture"/>
