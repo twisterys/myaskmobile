@@ -7,6 +7,7 @@ import {alertController, IonPage} from "@ionic/vue";
 import router from "@/router";
 import CustomButton from "@/components/CustomButton"
 import axios from "axios";
+import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
 
 
 
@@ -50,6 +51,8 @@ onBeforeMount(()=>{
    car.value = response.data.cars[0].id;
   })
 })
+
+const photos = ref([]);
 </script>
 
 <template>
@@ -72,10 +75,10 @@ onBeforeMount(()=>{
         <CustomTextArea label="Description :" v-model="description" placeholder="Votre description..." w-full/>
         <div class="photos">
           <p>Photos d’accident:</p>
-          <image-input input-id="image1"/>
-          <image-input input-id="image3"/>
-          <image-input input-id="image3"/>
-          <image-input input-id="image3"/>
+          <image-input :photos="photos" name="Justif 1" input-id="image1"/>
+          <image-input :photos="photos" name="Justif 2" input-id="image3"/>
+          <image-input :photos="photos" name="Justif 3" input-id="image3"/>
+          <image-input :photos="photos" name="Justif 4" input-id="image3"/>
         </div>
         <div class="center">
           <CustomButton @click="sendSinitre" rounded >

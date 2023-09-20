@@ -1,46 +1,55 @@
 <script setup>
 import {ref} from "vue";
 import CustomButton from "@/components/CustomButton.vue";
+import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
 
-defineProps({
-  inputId: String
+const props = defineProps({
+  inputId: String,
+  name:String,
+  photos:Object
 })
-const filename = ref("Aucune image");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const changeHandler = (e) => {
-  if (e.target.files[0] && e.target.files[0].type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.addEventListener('load', (event) => {
-      e.target.previousSibling.children[0].src = event.target.result;
-    });
-    reader.readAsDataURL(e.target.files[0]);
-    filename.value = e.target.files[0].name;
-  } else {
-    e.target.previousSibling.children[0].src = new URL(`../assets/CameraPlaceHolder.png`, import.meta.url);
-    filename.value = "Aucune image";
-  }
-}
+
 const clearImage = (e) => {
-  const img = e.target.parentElement.previousSibling.children[0].children[0].children[0];
-  const input =e.target.parentElement.previousSibling.children[0].children[1]
-  img.src = new URL(`../assets/CameraPlaceHolder.png`, import.meta.url);
-  input.value = '';
-  filename.value = "Aucune image";
+  mypicture.value = {};
+  bloblink.value = {}
+}
+
+const bloblink = ref({});
+const mypicture = ref({});
+const blobToBase64 = async (blob)=> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+const takePhoto = async (type) => {
+  const photo = Camera.getPhoto({
+    resultType: CameraResultType.Uri,
+    source: CameraSource.Camera,
+    quality: 100
+  })
+  const response = await fetch(photo.webPath);
+  const blob = await response.blob();
+  const picture = await blobToBase64(blob);
+  bloblink.value = { link: (await photo).webPath.toString(), type: type };
+  mypicture.value = picture;
+  const path = (await photo).webPath.toString();
+  // eslint-disable-next-line vue/no-mutating-props
+  props.photos.push( {photo,path,type})
 }
 </script>
 
 <template>
   <div   class="input-card">
     <div class="preview">
-      <label @click="$event.target.children[1].click()" :for="'#'+inputId">
-        <figure>
-          <img src="../assets/CameraPlaceHolder.png" alt="">
-        </figure>
-        <input :id="inputId"  @change="changeHandler($event)"  type="file" accept="image/" capture="user" hidden >
-      </label>
+      <figure @click="takePhoto(name)" >
+        <img v-show="!bloblink.link" src="../assets/CameraPlaceHolder.png" alt="">
+        <img v-show="bloblink.link" :src="bloblink.link" alt="">
+      </figure>
     </div>
     <div class="footer">
-      <p> {{ filename }}</p>
+      <p> {{name}}</p>
       <CustomButton @click="clearImage"
                     STYLE="background-color: white !important; color: var(--blue-color-400) !important">Supprimer
       </CustomButton>
@@ -65,12 +74,11 @@ input {
   background-size: cover;
   background-position: center;
 }
-label figure {
-  pointer-events: none;
+figure {
   width: 100%;
   min-height: 200px;
   overflow: clip;
-
+  background-color: #ECECEC;
   img {
     width: 100%;
     display: block;

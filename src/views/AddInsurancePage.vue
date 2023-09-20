@@ -9,23 +9,23 @@ import CustomButton from "@/components/CustomButton.vue";
 import CarCard from "@/components/CarCard.vue";
 import CustomCheckBox from "@/components/CustomCheckBox.vue";
 import {alertController, IonContent, IonPage} from "@ionic/vue";
-import AskNavbar from "@/components/AskNavbar";
 import axios from "axios";
-import router from "@/router";
+
 
 const cars = ref([]);
+const couvertures = ref([]);
 const carBrand = ref("");
 const carModel = ref("");
 const carHP = ref("");
 const circulationDate = ref("");
 const alphabet = ref("");
 const city = ref("");
-const carPlateNumber= ref("");
+const carPlateNumber = ref("");
 const alphabets = ref(["أ", "ب", "د", 'ج', "ي", "و"]);
-const typeCouverture = ["Def et Recrs","Incendie","Tierce","Bris de glaces","Vol","Collision","Perte finance","Assistance"];
+const typeCouverture = ["Def et Recrs", "Incendie", "Tierce", "Bris de glaces", "Vol", "Collision", "Perte finance", "Assistance"];
 const duration = ref(3);
 
-async function presentAlert(msg,header) {
+async function presentAlert(msg, header) {
   const alert = await alertController.create({
     header: header,
     message: msg,
@@ -35,21 +35,19 @@ async function presentAlert(msg,header) {
 }
 
 function check_date(date) {
-  return date ;
+  return date;
 }
 
-function empty_check(attr)
-{
-   if(attr==="" || attr === null || attr === undefined)
-      return true ;
-   else
-     return false;
+function empty_check(attr) {
+  if (attr === "" || attr === null || attr === undefined)
+    return true;
+  else
+    return false;
 }
 
 const addHandler = (e) => {
-  if(empty_check(carBrand.value)  || empty_check(carModel.value) || empty_check(carHP.value) || empty_check(circulationDate.value) ||
-      empty_check(carPlateNumber.value) || empty_check(alphabets.value) || empty_check(city.value))
-  {
+  if (empty_check(carBrand.value) || empty_check(carModel.value) || empty_check(carHP.value) || empty_check(circulationDate.value) ||
+      empty_check(carPlateNumber.value) || empty_check(alphabets.value) || empty_check(city.value)) {
     presentAlert('Merci de remplir toutes les informations du véhicule')
 
   } else {
@@ -57,38 +55,42 @@ const addHandler = (e) => {
       mark: carBrand.value,
       model: carModel.value,
       horsePower: carHP.value,
-      circulation : check_date(circulationDate.value),
+      circulation: check_date(circulationDate.value),
       matricule: {
         mat1: carPlateNumber.value,
         mat2: alphabet.value,
         mat3: city.value
       }
     });
-    [carModel,carBrand,carHP,circulationDate,alphabet,city,carPlateNumber].forEach(co=>co.value="")
+    [carModel, carBrand, carHP, circulationDate, alphabet, city, carPlateNumber].forEach(co => co.value = "")
   }
 };
 const send_request = function () {
   axios.post('insurance_add', {
-    duration : duration.value,
-    cars : cars.value
+    duration: duration.value,
+    cars: cars.value,
+    types: couvertures.value
   })
-      .then(response=>{
-        presentAlert("Votre demande de devis est envoyé","Réussie!");
-      }).then(router.back)
-      .catch(err=>{
+      .then(response => {
+        console.log(response);
+        presentAlert("Votre demande de devis est envoyé", "Réussie!");
+      })
+      .catch(err => {
         const errors = err.response.data.errors
-        const header ="Attention!";
-        let msg ='';
+        const header = "Attention!";
+        let msg = '';
         for (const error in errors) {
           msg = errors[error][0]
         }
-        presentAlert(msg,header);
+        presentAlert(msg, header);
       })
 }
 
-  function moveToday() {
-    circulationDate.value = new Date();
-  }
+function moveToday() {
+  circulationDate.value = new Date();
+}
+
+
 </script>
 
 <template>
@@ -100,15 +102,15 @@ const send_request = function () {
         <PageDivider text="Informations du véhicule"/>
         <CarCard v-for="(car) in cars" :key="car.matricule.number" :car="car" style="pointer-events: none"/>
         <div class="car-inputs">
-          <CustomInput label="Marque" placeholder="Véhicule marque.." v-model="carBrand" input-id="marque-input" rounded
+          <CustomInput v-model="carBrand" input-id="marque-input" label="Marque" placeholder="Véhicule marque.." rounded
                        w-full/>
-          <CustomInput label="Modele" placeholder="Véhicule modele.." v-model="carModel" input-id="modele-input" rounded
+          <CustomInput v-model="carModel" input-id="modele-input" label="Modele" placeholder="Véhicule modele.." rounded
                        w-full/>
           <div class="input">
-            <DatePicker locale="fr" color="sky-blue" v-model="circulationDate">
+            <DatePicker v-model="circulationDate" color="sky-blue" locale="fr">
               <template #default="{ inputValue, inputEvents }">
-                <CustomInput label="Mise en circulation" placeholder="DD/MM/YYYY" :model-value="inputValue"
-                             v-on="inputEvents" rounded w-full left>
+                <CustomInput :model-value="inputValue" label="Mise en circulation" left
+                             placeholder="DD/MM/YYYY" rounded w-full v-on="inputEvents">
                   <IconCalendar/>
                 </CustomInput>
               </template>
@@ -119,26 +121,26 @@ const send_request = function () {
               </template>
             </DatePicker>
           </div>
-          <CustomInput type="number" label="Puissance fiscale" placeholder="Puissance fiscale.." v-model="carHP"
-                       input-id="hp-input"
-                       rounded w-full/>
+          <CustomInput v-model="carHP" input-id="hp-input" label="Puissance fiscale" placeholder="Puissance fiscale.."
+                       rounded
+                       type="number" w-full/>
           <div class="matricule">
             <p>Matricule :</p>
             <div class="inputs">
-              <CustomInput type="number" :hide-label="true" v-model="carPlateNumber" placeholder="198732" rounded
+              <CustomInput v-model="carPlateNumber" :hide-label="true" placeholder="198732" rounded type="number"
                            w-full/>
-              <select :value="alphabet" @change="$event=> alphabet = $event.target.value " class="aks-select">
-                <option value="" disabled>Alphabet</option>
+              <select :value="alphabet" class="aks-select" @change="$event=> alphabet = $event.target.value ">
+                <option disabled value="">Alphabet</option>
                 <option v-for="alphabet in alphabets" :key="alphabet" :value="alphabet">{{ alphabet }}</option>
               </select>
               <select :value="city" class="aks-select" @change="$event=> city = $event.target.value ">
-                <option value="" disabled>Ville</option>
+                <option disabled value="">Ville</option>
                 <option v-for="i in 87" :key="i" :value="i">{{ i }}</option>
               </select>
             </div>
           </div>
           <div class="end">
-            <CustomButton @click="addHandler" rounded>
+            <CustomButton rounded @click="addHandler">
               Ajouter un véhicule
             </CustomButton>
           </div>
@@ -147,27 +149,25 @@ const send_request = function () {
         <div class="couverture">
           <p>Type de couverture:</p>
           <div class="checkboxs">
-            <CustomCheckBox :disable="true" :checked="true" value=""
-                            label="Responsabilité civile *" name="couverture"/>
-            <CustomCheckBox type="radio" v-for="couverture in typeCouverture" :key="couverture" :value="couverture"
-                            :label="couverture" name="couverture"/>
+            <CustomCheckBox :checked="true" :disable="true" label="Responsabilité civile *"
+                            name="couverture" value=""/>
+            <CustomCheckBox v-for="couverture in typeCouverture" :key="couverture" v-model="couvertures" :label="couverture"
+                            :model="couverture" name="couverture" type="radio"/>
           </div>
         </div>
         <div class="duration">
           <p>Durée d'assurance :</p>
           <div class="checkboxs">
-            <input type="radio" id="one" value="3" v-model="duration" class="ask-radio" name="duration"/>
+            <input id="one" v-model="duration" class="ask-radio" name="duration" type="radio" value="3"/>
             <label for="one">3mois</label>
-            <input type="radio" id="two" value="6" v-model="duration" class="ask-radio" name="duration"/>
+            <input id="two" v-model="duration" class="ask-radio" name="duration" type="radio" value="6"/>
             <label for="one">6mois</label>
-            <input type="radio" id="two" value="12" v-model="duration" class="ask-radio" name="duration"/>
+            <input id="two" v-model="duration" class="ask-radio" name="duration" type="radio" value="12"/>
             <label for="two">12mois</label>
-
-
           </div>
         </div>
         <div class="footer">
-          <CustomButton  @click="send_request" w-full>
+          <CustomButton w-full @click="send_request">
             Demander un devis
           </CustomButton>
         </div>
@@ -176,8 +176,8 @@ const send_request = function () {
   </ion-page>
 </template>
 
-<style lang="scss" scoped >
-.phrase  {
+<style lang="scss" scoped>
+.phrase {
   color: var(--gray-color-300);
   margin-top: 1rem;
 }
@@ -207,23 +207,27 @@ div.matricule .inputs {
   display: flex;
   justify-content: end;
 }
+
 .checkboxs {
   margin-top: .7rem;
   display: flex;
   gap: .5rem;
   flex-wrap: wrap;
 }
+
 .ask-radio {
   display: flex;
   align-items: center;
   gap: .5rem;
   padding: .3rem 1rem;
-  box-shadow:var(--global-shadow) ;
+  box-shadow: var(--global-shadow);
   width: fit-content;
   border-radius: var(--full-border-radius);
-  *{
+
+  * {
     pointer-events: none;
   }
+
   span {
     background-color: var(--gray-color-200);
     border-radius: var(--full-border-radius);
@@ -231,81 +235,28 @@ div.matricule .inputs {
     height: 14px;
     position: relative;
     display: block;
+
     &.active {
       background-color: var(--blue-color-400);
+
       &::after {
         content: "";
         position: absolute;
-        top:calc(50% - 2px);
+        top: calc(50% - 2px);
         left: calc(50% - 2px);
-        border: 2px solid white ;
+        border: 2px solid white;
         border-radius: var(--full-border-radius);
       }
     }
   }
 }
+
 .duration {
   margin-top: 1rem;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
 .footer {
-  margin: 2rem 0 1rem 0;
+  margin: 2rem 0 0 0;
   text-align: center;
 }
 </style>

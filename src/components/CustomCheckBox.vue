@@ -3,23 +3,32 @@ import {onMounted, ref, watch} from "vue";
 
 const props =defineProps({
   label: String,
-  modelValue:String,
+  modelValue:Object,
   name:String,
   disable:Boolean,
   checked:Boolean,
+  model:String
 })
+defineEmits(['update:modelValue'])
 const spanChecked= ref(props.checked);
 const clickHandler = e => {
   if (!props.disable){
     e.target.firstChild.checked = !e.target.firstChild.checked;
     spanChecked.value = e.target.firstChild.checked;
+    if (!spanChecked.value){
+      // eslint-disable-next-line vue/no-mutating-props
+     props.modelValue.splice(props.modelValue.indexOf(e.target.firstChild.value),1);
+    }else {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.modelValue.push(e.target.firstChild.value)
+    }
   }
 }
 </script>
 
 <template>
   <div @click="clickHandler" class="ask-checkbox">
-    <input  @change=" !disable ? $emit('input', $event.target.checked) :''"  :checked="checked"  type="checkbox" :value="modelValue"  :name="name"  >
+    <input  @change=" !disable ? $emit('input', $event.target.checked ) :''"  :value="model"   :checked="checked"  type="checkbox"   :name="name"  >
     <span :class="spanChecked? 'active':null" ></span>
     <p>{{ label }}</p>
   </div>
