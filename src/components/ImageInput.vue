@@ -10,8 +10,11 @@ const props = defineProps({
 })
 
 const clearImage = (e) => {
+  // eslint-disable-next-line vue/no-mutating-props
+  props.photos.splice(props.photos.map(obj=> obj.type).indexOf(props.name),1);
   mypicture.value = {};
-  bloblink.value = {}
+  bloblink.value = {};
+
 }
 
 const bloblink = ref({});
@@ -29,14 +32,14 @@ const takePhoto = async (type) => {
     source: CameraSource.Camera,
     quality: 100
   })
-  const response = await fetch(photo.webPath);
+  const response = await fetch((await photo).webPath.toString());
   const blob = await response.blob();
   const picture = await blobToBase64(blob);
   bloblink.value = { link: (await photo).webPath.toString(), type: type };
   mypicture.value = picture;
   const path = (await photo).webPath.toString();
   // eslint-disable-next-line vue/no-mutating-props
-  props.photos.push( {photo,path,type})
+  props.photos.push({picture,type})
 }
 </script>
 

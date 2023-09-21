@@ -18,24 +18,29 @@ const description = ref('');
 
 function sendSinitre(){
 
-  axios.post('sinistre_add', {
-    car_id : car.value,
-    tiers : tiers.value,
-    description : description.value
-  })
-      .then(response=>{
-        presentAlert("Votre déclaration est envoyé","Réussie!");
-      }).then(router.back)
-      .catch(err=>{
-        const errors = err.response.data.errors
-        const header ="Attention!";
-        const msg ='Merci de vérifier les informations saisies';
-        // for (const error in errors) {
-        //   msg = errors[error][0]
-        // }
-        presentAlert(msg,header);
-      })
+  if (car.value !=null && tiers.value !== '' && description.value !== '' && photos.value.length ===4 ){
+    axios.post('sinistre_add', {
+      car_id : car.value,
+      tiers : tiers.value,
+      description : description.value,
+      pictures:photos.value
 
+    }).then(response=>{
+      presentAlert("Votre déclaration est envoyé","Réussie!");
+    })
+    .then(router.back)
+    .catch(err=>{
+      const errors = err.response.data.errors
+      const header ="Attention!";
+      const msg ='Merci de vérifier les informations saisies';
+      // for (const error in errors) {
+      //   msg = errors[error][0]
+      // }
+      presentAlert(msg,header);
+    })
+  }else {
+    presentAlert('Merci de vérifier les informations saisies !','Attention!');
+  }
 }
 async function presentAlert(msg) {
   const alert = await alertController.create({
@@ -43,7 +48,7 @@ async function presentAlert(msg) {
     message: msg,
     buttons: ["OK"],
   });
-  await alert.present().then(router.back);
+  await alert.present();
 }
 onBeforeMount(()=>{
   axios.get('cars_show').then(response=>{
@@ -75,10 +80,7 @@ const photos = ref([]);
         <CustomTextArea label="Description :" v-model="description" placeholder="Votre description..." w-full/>
         <div class="photos">
           <p>Photos d’accident:</p>
-          <image-input :photos="photos" name="Justif 1" input-id="image1"/>
-          <image-input :photos="photos" name="Justif 2" input-id="image3"/>
-          <image-input :photos="photos" name="Justif 3" input-id="image3"/>
-          <image-input :photos="photos" name="Justif 4" input-id="image3"/>
+          <image-input v-for="i in 4" :key="i" :photos="photos" :name="'Justif '+(+i)" :input-id="'Justif'+(+i)"/>
         </div>
         <div class="center">
           <CustomButton @click="sendSinitre" rounded >

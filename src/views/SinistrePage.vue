@@ -11,13 +11,28 @@ import ReportCard from "@/components/ReportCard.vue";
 const props = defineProps({
   id:String
 })
-
+const justifications = ref([])
 const  sinistre = ref("");
+
 onMounted(() => {
       axios.get(`sinistre_show/${props.id}`).then(response=> {
         if (response.data.sinistre){
           sinistre.value = response.data.sinistre
+          return response.data.sinistre;
         }
+      }).then(response =>{
+        axios.get(`justification/${response.justif1}`).then(picture=> {
+          justifications.value.push(picture.data)
+        })
+        axios.get(`justification/${response.justif2}`).then(picture=> {
+          justifications.value.push(picture.data)
+        })
+        axios.get(`justification/${response.justif3}`).then(picture=> {
+          justifications.value.push(picture.data)
+        })
+        axios.get(`justification/${response.justif4}`).then(picture=> {
+          justifications.value.push(picture.data)
+        })
       })
     }
 )
@@ -35,10 +50,9 @@ onMounted(() => {
         <div class="photos">
           <p>Photos d’accident :</p>
          <div class="photos-container">
-           <img  src="../assets/CameraPlaceHolder.png" alt="">
-           <img  src="../assets/CameraPlaceHolder.png" alt="">
-           <img  src="../assets/CameraPlaceHolder.png" alt="">
-           <img  src="../assets/CameraPlaceHolder.png" alt="">
+           <div class="img" v-for="(justif,i) in justifications" :key="i+'piicture'">
+             <img :src="justif" alt="">
+           </div>
          </div>
         </div>
         <div class="map">
@@ -72,9 +86,16 @@ onMounted(() => {
 .photos-container {
   margin-top: 1rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   gap: 1rem;
+  .img{
+    border-radius: var(--global-border-radius);
+    box-shadow: var(--global-shadow);
+    overflow: clip;
+    img{
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
 }
 .info {
   margin-top: 1rem;
