@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router';
 import axios from 'axios';
 import { IonicVue } from '@ionic/vue';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 /* Fontawesome */
 import store from './store/index'
@@ -42,4 +43,5 @@ const app = createApp(App)
   
 router.isReady().then(() => {
   app.mount('#app');
+    defineCustomElements(window);
 });

@@ -6,6 +6,7 @@ import {onMounted, ref} from "vue";
 import CustomMap from "@/components/CustomMap.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
+import CustomLink from "@/components/CustomLink.vue";
 
 const getLatitude = () => {
   if (navigator.geolocation) {
@@ -18,6 +19,13 @@ const getLatitude = () => {
 const currentLongitude = ref();
 const currentLatitude = ref();
 onMounted(getLatitude)
+function onSuccess(result='lashay2'){
+  console.log("Success:"+result);
+}
+
+function onError(result='lashay2') {
+  console.log("Error:"+result);
+}
 </script>
 
 <template>
@@ -29,7 +37,7 @@ onMounted(getLatitude)
         <CustomMap :latitude="currentLatitude" :longitude="currentLongitude"/>
         <PageDivider text="Répertoire d'assistance"></PageDivider>
         <div class="rep">
-          <CustomButton rounded w-full>
+          <CustomLink href="tel:+212190"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -41,8 +49,8 @@ onMounted(getLatitude)
                 190
               </div>
             </template>
-          </CustomButton>
-          <CustomButton rounded w-full>
+          </CustomLink>
+          <CustomLink href="tel:+212190"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -54,8 +62,8 @@ onMounted(getLatitude)
                 190
               </div>
             </template>
-          </CustomButton>
-          <CustomButton rounded w-full>
+          </CustomLink>
+          <CustomLink href="tel:+212170"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -67,8 +75,8 @@ onMounted(getLatitude)
                 170
               </div>
             </template>
-          </CustomButton>
-          <CustomButton rounded w-full>
+          </CustomLink>
+          <CustomLink href="tel:+2125050" rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -80,7 +88,7 @@ onMounted(getLatitude)
                 5050
               </div>
             </template>
-          </CustomButton>
+          </CustomLink>
         </div>
       </main>
     </ion-content>
