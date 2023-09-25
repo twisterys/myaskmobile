@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import CustomTextArea from "@/components/CustomTextArea.vue";
 import ImageInput from "@/components/ImageInput.vue";
@@ -8,6 +8,11 @@ import router from "@/router";
 import CustomButton from "@/components/CustomButton"
 import axios from "axios";
 import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
+import {Geolocation} from "@capacitor/geolocation";
+import mapBlueIcon from "../../public/assets/mapIcons/blue.svg";
+import PageDivider from "@/components/PageDivider.vue";
+import CustomMap from "@/components/CustomMap.vue";
+import SinistreMap from "@/components/SinistreMap.vue";
 
 
 
@@ -15,16 +20,19 @@ const cars = ref([]);
 const car = ref();
 const tiers = ref('');
 const description = ref('');
+const coordinates = ref('');
+const photos = ref([]);
 
 function sendSinitre(){
 
-  if (car.value !=null && tiers.value !== '' && description.value !== '' && photos.value.length ===4 ){
+  if (car.value !=null && tiers.value !== '' && description.value !== '' && photos.value.length ===4 && coordinates.value !=='' ){
     axios.post('sinistre_add', {
       car_id : car.value,
       tiers : tiers.value,
       description : description.value,
-      pictures:photos.value
-
+      pictures:photos.value,
+      pos_x:coordinates.value.lat,
+      pos_y:coordinates.value.lng
     }).then(response=>{
       presentAlert("Votre déclaration est envoyé","Réussie!");
     })
@@ -42,6 +50,7 @@ function sendSinitre(){
     presentAlert('Merci de vérifier les informations saisies !','Attention!');
   }
 }
+
 async function presentAlert(msg) {
   const alert = await alertController.create({
     header: "Réussie",
@@ -57,7 +66,7 @@ onBeforeMount(()=>{
   })
 })
 
-const photos = ref([]);
+
 </script>
 
 <template>
@@ -67,7 +76,7 @@ const photos = ref([]);
         <ToBackPageHeader text="Nouveau sinistre"/>
         <p class="phrase">Remplissez vos informations dans les champs suivant</p>
         <div class="car">
-          <p>Véhicule :</p>
+          <page-divider text="Véhicule" ></page-divider>
           <select :value="car" class="aks-select" @change="$event=> car = $event.target.value ">
             <option  v-for="car in cars" :key="car.id" :value="car.id"> {{ car.mat3 }} {{
                 car.mat2
@@ -76,12 +85,15 @@ const photos = ref([]);
             </option>
           </select>
         </div>
+        <page-divider text="Informations" ></page-divider>
         <CustomTextArea label="Information Tiers :" v-model="tiers" placeholder="Information tiers..." w-full/>
         <CustomTextArea label="Description :" v-model="description" placeholder="Votre description..." w-full/>
         <div class="photos">
-          <p>Photos d’accident:</p>
+          <page-divider text="Photos d’accident" ></page-divider>
           <image-input v-for="i in 4" :key="i" :photos="photos" :name="'Justif '+(+i)" :input-id="'Justif'+(+i)"/>
         </div>
+        <page-divider text="Localisation" ></page-divider>
+        <CustomMap  ></CustomMap>
         <div class="center">
           <CustomButton @click="sendSinitre" rounded >
             Envoyer la déclaration

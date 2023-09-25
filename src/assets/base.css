@@ -34,6 +34,10 @@ a {
     color: var(--blue-color-400);
 }
 
+input , textarea{
+    background-color: white !important;
+}
+
 /* Sky blue */
 .vc-sky-blue {
     --vc-accent-50: #f0f9ff;
@@ -45,3 +49,4 @@ a {
     --vc-accent-600: var(--blue-color-400);
     --vc-accent-900: var(--blue-color-300);
 }
+

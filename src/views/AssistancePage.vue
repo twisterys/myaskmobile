@@ -2,30 +2,14 @@
 import {IonContent, IonPage} from "@ionic/vue";
 import PageHeader from "@/components/PageHeader.vue";
 import PageDivider from "@/components/PageDivider.vue";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import CustomMap from "@/components/CustomMap.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import IconPhone from "@/components/icons/IconPhone.vue";
 import CustomLink from "@/components/CustomLink.vue";
+import {Geolocation} from "@capacitor/geolocation";
 
-const getLatitude = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      currentLatitude.value = position.coords.latitude;
-      currentLongitude.value = position.coords.longitude;
-    });
-  }
-}
-const currentLongitude = ref();
-const currentLatitude = ref();
-onMounted(getLatitude)
-function onSuccess(result='lashay2'){
-  console.log("Success:"+result);
-}
 
-function onError(result='lashay2') {
-  console.log("Error:"+result);
-}
 </script>
 
 <template>
@@ -34,10 +18,9 @@ function onError(result='lashay2') {
       <main>
         <PageHeader text="Assistance"/>
         <PageDivider text="Garage map"/>
-        <CustomMap :latitude="currentLatitude" :longitude="currentLongitude"/>
         <PageDivider text="Répertoire d'assistance"></PageDivider>
         <div class="rep">
-          <CustomLink href="tel:+212190"  rounded w-full>
+          <CustomLink href="tel:190"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -50,7 +33,7 @@ function onError(result='lashay2') {
               </div>
             </template>
           </CustomLink>
-          <CustomLink href="tel:+212190"  rounded w-full>
+          <CustomLink href="tel:190"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -63,7 +46,7 @@ function onError(result='lashay2') {
               </div>
             </template>
           </CustomLink>
-          <CustomLink href="tel:+212170"  rounded w-full>
+          <CustomLink href="tel:170"  rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">
@@ -76,7 +59,7 @@ function onError(result='lashay2') {
               </div>
             </template>
           </CustomLink>
-          <CustomLink href="tel:+2125050" rounded w-full>
+          <CustomLink href="tel:5050" rounded w-full>
             <template #default>
               <div class="space">
                 <div class="row">

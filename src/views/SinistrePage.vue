@@ -57,7 +57,6 @@ onMounted(() => {
         </div>
         <div class="map">
           <p>Localisation :</p>
-          <CustomMap :latitude="sinistre.pos_x" :longitude="sinistre.pos_y"/>
         </div>
         <PageDivider text="Informations du véhicule"/>
         <CarCard v-if="sinistre.car" :car="sinistre.car"/>
