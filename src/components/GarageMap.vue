@@ -1,15 +1,16 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {Geolocation} from "@capacitor/geolocation";
 import mapBlueIcon from "../../public/assets/mapIcons/blue.svg";
-import CustomButton from "@/components/CustomButton.vue";
+import mapGreenIcon from "../../public/assets/mapIcons/Vector.svg";
 import axios from "axios";
-defineProps({
-  modelValue:Object
+const props =defineProps({
+  modelValue:Object,
+  data:Array
 })
 const emits = defineEmits(['update:modelValue']);
 let platform;
-let map2;
+let map;
 let defaultLayers;
 const currentPosition = ref('');
 const spinner = ref(true);
@@ -19,49 +20,38 @@ const getCoordinates = async () => {
 };
 const initializeMap = async () =>{
   await axios.get('hereToken').then(response=>{
-    return  response.data;
+     return  response.data;
   }).then(token=>{
     platform = new H.service.Platform({'apikey':token})
     defaultLayers = platform.createDefaultLayers();
-    map2 = new H.Map(document.getElementById('mapContainer'),
+    map = new H.Map(document.getElementById('mapContainer'),
         defaultLayers.vector.normal.map, {
           center: {lat: 0, lng: 13},
           zoom: 5,
         });
-    const behavior =  new H.mapevents.Behavior(new H.mapevents.MapEvents(map2));
-  }).then(()=>{
-    getCoordinates().then(
-        ()=>map2.setCenter({lat: currentPosition.value.latitude,lng: currentPosition.value.longitude}));
-    setMyPosition()
-  })
-  map2.addEventListener('tap', function (evt) {
-    map2.removeObjects(map2.getObjects ())
-    const coord = map2.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
-    addMarker(map2,coord);
-    emits('update:modelValue',coord)
-  });
+    const behavior =  new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+  }).then(()=>getCoordinates().then(()=>map.setCenter({lat: currentPosition.value.latitude,lng: currentPosition.value.longitude})))
 }
 onMounted( ()=>{
- setTimeout(()=>{
-   initializeMap().then( () => spinner.value = false);
- },2000)
-
+  setTimeout(()=>{
+    initializeMap().then( () => spinner.value = false).then(()=>{
+      axios.get('garages').then(response=>{
+        response.data.data.forEach(marker=>{
+          if (marker.type === 'conventionné'){
+            addMarker(map,marker.coords,mapBlueIcon)
+          }else {
+            addMarker(map,marker.coords,mapGreenIcon)
+          }
+        })
+      })}
+    );
+  },2000)
 })
-
-const addMarker = (map2,coord) =>{
+const addMarker = (map,coord,icon) =>{
   const marker = new H.map.Marker(new H.geo.Point(coord.lat,coord.lng ),{
-    icon: new H.map.Icon(mapBlueIcon)
+    icon: new H.map.Icon(icon)
   });
-  map2.addObject(marker)
-}
-const setMyPosition = ()=>{
-  getCoordinates().then(()=>{
-    map2.removeObjects(map2.getObjects ());
-    addMarker(map2,{lat: currentPosition.value.latitude,lng: currentPosition.value.longitude});
-    emits('update:modelValue',{lat: currentPosition.value.latitude,lng: currentPosition.value.longitude});
-    map2.setCenter({lat: currentPosition.value.latitude,lng: currentPosition.value.longitude});
-    map2.setZoom(15)
-  })
+  map.addObject(marker)
 }
 
 </script>
@@ -71,8 +61,15 @@ const setMyPosition = ()=>{
     <div v-if="spinner" class="spinner">
     </div>
   </div>
-  <div class="buttons">
-    <CustomButton @click="setMyPosition" >Ma position actuelle</CustomButton>
+  <div class="mapKeys">
+    <div class="key">
+      <div class="color1"></div>
+      <p>Garages agréés</p>
+    </div>
+    <div class="key">
+      <div class="color2"></div>
+      <p>Garages conventionnés</p>
+    </div>
   </div>
 </template>
 
@@ -107,6 +104,27 @@ const setMyPosition = ()=>{
   top: 0;
   left: 0;
 }
+.key {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  margin: .5rem 0;
+  p {
+    text-transform: capitalize;
+  }
+}
+.color1 {
+  background-color: #0BD561;
+  width: 1rem;
+  height: 1rem;
+  border-radius: .2rem;
+}
+.color2 {
+  background-color: #003E7E;
+  width: 1rem;
+  height: 1rem;
+  border-radius: .2rem;
+}
 .buttons {
   display: flex;
   justify-content: end;
@@ -117,5 +135,4 @@ const setMyPosition = ()=>{
     transform: translateX(100%);
   }
 }
-
 </style>

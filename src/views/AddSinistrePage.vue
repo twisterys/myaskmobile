@@ -4,15 +4,10 @@ import ToBackPageHeader from "@/components/ToBackPageHeader.vue";
 import CustomTextArea from "@/components/CustomTextArea.vue";
 import ImageInput from "@/components/ImageInput.vue";
 import {alertController, IonPage} from "@ionic/vue";
-import router from "@/router";
 import CustomButton from "@/components/CustomButton"
 import axios from "axios";
-import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
-import {Geolocation} from "@capacitor/geolocation";
-import mapBlueIcon from "../../public/assets/mapIcons/blue.svg";
 import PageDivider from "@/components/PageDivider.vue";
 import CustomMap from "@/components/CustomMap.vue";
-import SinistreMap from "@/components/SinistreMap.vue";
 
 
 
@@ -24,8 +19,7 @@ const coordinates = ref('');
 const photos = ref([]);
 
 function sendSinitre(){
-
-  if (car.value !=null && tiers.value !== '' && description.value !== '' && photos.value.length ===4 && coordinates.value !=='' ){
+  if (car.value !=null && tiers.value !== '' && description.value !== '' && photos.value.length ===4 && coordinates.value !== '' ){
     axios.post('sinistre_add', {
       car_id : car.value,
       tiers : tiers.value,
@@ -65,10 +59,7 @@ onBeforeMount(()=>{
    car.value = response.data.cars[0].id;
   })
 })
-
-
 </script>
-
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
@@ -93,7 +84,7 @@ onBeforeMount(()=>{
           <image-input v-for="i in 4" :key="i" :photos="photos" :name="'Justif '+(+i)" :input-id="'Justif'+(+i)"/>
         </div>
         <page-divider text="Localisation" ></page-divider>
-        <CustomMap  ></CustomMap>
+        <custom-map v-model="coordinates" ></custom-map>
         <div class="center">
           <CustomButton @click="sendSinitre" rounded >
             Envoyer la déclaration

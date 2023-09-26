@@ -7,7 +7,6 @@ export default{
             const token = localStorage.getItem('token');
             state.token = token;
         }
-
         return state.token;
     },
     user(state){

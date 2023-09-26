@@ -16,5 +16,6 @@ export default {
         commit("setToken", null);
         commit("setUser", null);
         localStorage.setItem("token",null)
+        localStorage.setItem("user",null)
     },
 };

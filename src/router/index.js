@@ -13,7 +13,7 @@ import NotificationsPage from "@/views/NotificationsPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
 import SettingsPage from "@/views/SettingsPage.vue";
 
-const routes = [
+  const routes = [
   {
     path: "/",
     redirect: "/home",

@@ -1,9 +1,9 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router';
 import axios from 'axios';
-import { IonicVue } from '@ionic/vue';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import {IonicVue} from '@ionic/vue';
+import {defineCustomElements} from '@ionic/pwa-elements/loader';
 
 /* Fontawesome */
 import store from './store/index'
@@ -19,29 +19,41 @@ import '@ionic/vue/css/typography.css';
 
 
 axios.defaults.baseURL = 'https://zaid.tarmiz.ma/api';
- // axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 
 axios.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
     },
     (error) => {
-      return Promise.reject(error);
+        return Promise.reject(error);
     }
 );
+axios.interceptors.response.use(
+    response=>{
+        return  response;
+    },
+    error=>{
+        if (error.response.status === 401) {
+            localStorage.clear();
+            router.push("/");
+        }
+        return Promise.reject(error);
+    }
+)
 
 
 const app = createApp(App)
-  .use(IonicVue)
-  .use(store)
-  .use(router);
-  
+    .use(IonicVue)
+    .use(store)
+    .use(router);
+
 router.isReady().then(() => {
-  app.mount('#app');
+    app.mount('#app');
     defineCustomElements(window);
 });

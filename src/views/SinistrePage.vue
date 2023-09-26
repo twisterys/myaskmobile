@@ -21,18 +21,13 @@ onMounted(() => {
           return response.data.sinistre;
         }
       }).then(response =>{
-        axios.get(`justification/${response.justif1}`).then(picture=> {
-          justifications.value.push(picture.data)
-        })
-        axios.get(`justification/${response.justif2}`).then(picture=> {
-          justifications.value.push(picture.data)
-        })
-        axios.get(`justification/${response.justif3}`).then(picture=> {
-          justifications.value.push(picture.data)
-        })
-        axios.get(`justification/${response.justif4}`).then(picture=> {
-          justifications.value.push(picture.data)
-        })
+        for (let i = 1; i < 5; i++) {
+          if (response['justif'+i]){
+            axios.get(`justification/${response['justif'+i]}`).then(picture=> {
+              justifications.value.push(picture.data)
+            })
+          }
+        }
       })
     }
 )
@@ -60,17 +55,6 @@ onMounted(() => {
         </div>
         <PageDivider text="Informations du véhicule"/>
         <CarCard v-if="sinistre.car" :car="sinistre.car"/>
-<!--        <PageDivider text="Information d’assurance"/>-->
-<!--        <div class="info">-->
-<!--          <span>Numéro de police : </span>-->
-<!--          <span>{{sinistre.insurance.id_number}}</span>-->
-<!--        </div>-->
-<!--        <div class="info">-->
-<!--          <span>Type de couverture :</span>-->
-<!--          <div class="couvertures">-->
-<!--            <CustomCheckBox :checked="true" :disable="true" v-for="couverture in sinistre.insurance.couvertures" :key="couverture" :label="couverture"  />-->
-<!--          </div>-->
-<!--        </div>-->
         <PageDivider text="Rapport d'expertise" />
         <ReportCard v-for="(report,i) in sinistre.reports" :key="report.id" :number="i" :report="report"></ReportCard>
       </main>
