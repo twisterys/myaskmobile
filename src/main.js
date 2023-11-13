@@ -18,8 +18,8 @@ import '@ionic/vue/css/structure.css';
 import '@ionic/vue/css/typography.css';
 
 
-axios.defaults.baseURL = 'https://zaid.tarmiz.ma/api';
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'https://zaid.tarmiz.ma/api';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 
 axios.interceptors.request.use(
